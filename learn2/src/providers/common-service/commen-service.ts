@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Response ,Headers} from '@angular/http';
+import { Http, Response} from '@angular/http';
 import { Church } from './church'
-
-import{DeviceService}from'../common-service';
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
