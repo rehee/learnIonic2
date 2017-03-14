@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,OnChanges } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
 @Component({
@@ -11,6 +11,13 @@ export class HomeSliderComponent implements OnInit {
     constructor() { 
     }
     
-    
-    ngOnInit() { this.bannerSlider.startAutoplay();}
+    ngOnChanges(){
+        console.log(this.bannerSlider);
+        this.bannerSlider.startAutoplay();
+        
+        console.log(this.bannerSlider.autoplay);
+    }
+    ngOnInit() { 
+       
+    }
 }
