@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
-import { CommonService, Church } from '../../providers/common-service';
+import { CommonService, Church, DataService } from '../../providers/common-service';
 
 import { Storage } from '@ionic/storage';
+
 
 @Component({
   selector: 'page-home',
@@ -13,30 +13,18 @@ import { Storage } from '@ionic/storage';
 export class HomePage {
   title: string = this.commonService.title;
   church: Church = new Church();
+  data: any[] = [];
 
-  constructor(public navCtrl: NavController, public commonService: CommonService,public storage:Storage) {
-
-    this.commonService.getChurch()
-
-      .subscribe(
-      response => {
-        this.title = response.church.name;
-        this.church = response
-      },
-      error => console.log(error));
-      storage.ready().then(()=>{
-        storage.get('appName').then((val)=>{
-          console.log(val);
-        })
-        
-      });
-
+  constructor(public navCtrl: NavController, public commonService: CommonService, public dataservice: DataService, public storage: Storage) {
   }
 
-  getJSON(input): string {
-    console.log(input);
-    return "(input)";
+  ngOnInit() {
+    this.data = this.dataservice.homePageData;
   }
 
+  showData() {
+    console.log(this.data);
+
+  }
 
 }

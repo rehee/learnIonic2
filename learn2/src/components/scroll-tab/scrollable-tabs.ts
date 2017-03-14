@@ -78,7 +78,7 @@ export class ScrollableTabs implements AfterViewInit {
           // set <a> display: inline-table
           this.renderer.setElementStyle(element, 'display', 'inline-table');
           // set <a> width: 6rem
-          this.renderer.setElementStyle(element, 'width', '6rem');
+          this.renderer.setElementStyle(element, 'width', '9rem');
           // extra padding for title-only tags only
           if (element.classList.contains("has-title-only")) {
             // set <a> padding-top: 1.5rem

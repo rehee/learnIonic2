@@ -28,20 +28,18 @@ export class CommonService {
 
   ThisChurch: Church = new Church();
 
-  // getContent(): Observable<any> {
-  //   let headers = new Headers({'Content-Type':'application/json','know-api-key':''})
-  //   return this.http.post(
-  //       this.ThisChurch.init.base_url + '/app/all', 
-  //       JSON.stringify(this.deviceService.getWhoami()),
-  //        headers)
-  //     .map((response: Response) => <any>response.json())
-  //     .catch(this.handleError);
-  // }
-
+  getChurcnPromis():Promise<Church>{
+    return new Promise<Church>((resolve,reject)=>{
+      this.getChurch().subscribe(
+        response=>resolve(response),
+        error=>reject(error)
+      )
+    })
+  }
 
   getChurch(): Observable<Church> {
     return this.http.get("church/church.json")
-      .map((response: Response) => <Church>response.json())
+      .map((response: Response) =>{this.ThisChurch=<Church>response.json();return this.ThisChurch;} )
       .catch(this.handleError)
   }
   thisChurch(): boolean {
@@ -65,4 +63,9 @@ export class CommonService {
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }
+}
+
+export enum AppKeyType{
+  ApiKey=0,
+  LastUpdateTime=1
 }

@@ -1,0 +1,7 @@
+<ion-card [ngSwitch]="data?.data?.url">
+    <img *ngSwitchCase="'nolink'" src="{{data?.data?.image?.b64}}" />
+
+    <a *ngSwitchDefault [href]="data?.data?.url" >
+        <img *ngSwitchCase="'nolink'" src="{{data?.data?.image?.b64}}" />
+    </a>
+</ion-card>

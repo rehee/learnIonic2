@@ -5,10 +5,30 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
-import{ CommonService,DeviceService,DataService  }from'../providers/common-service';
+import { CommonService, DeviceService, DataService } from '../providers/common-service';
 
 import { IonicStorageModule } from '@ionic/storage';
-import{ScrollableTabs}from '../components/scroll-tab/scrollable-tabs'
+import { ScrollableTabs } from '../components/scroll-tab/scrollable-tabs'
+
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular'
+import { HomeBlockComponent,HomeLinkComponent,HomeVoteComponent,HomeSliderComponent } from '../pages/home/weidges/index';
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': 'b3dcf650',
+  },
+  'push': {
+    'sender_id': '670965791919',
+    'pluginConfig': {
+      'ios': {
+        'badge': true,
+        'sound': true
+      },
+      'android': {
+        'iconColor': '#343434'
+      }
+    }
+  }
+};
 
 @NgModule({
   declarations: [
@@ -16,12 +36,18 @@ import{ScrollableTabs}from '../components/scroll-tab/scrollable-tabs'
     AboutPage,
     ContactPage,
     HomePage,
+    HomeBlockComponent,
+    HomeLinkComponent,
+    HomeVoteComponent,
+    HomeSliderComponent,
     TabsPage,
-    ScrollableTabs
+    ScrollableTabs,
+    
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -31,8 +57,9 @@ import{ScrollableTabs}from '../components/scroll-tab/scrollable-tabs'
     HomePage,
     TabsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},CommonService,DeviceService,DataService]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, CommonService, DeviceService, DataService
+    ]
 })
 export class AppModule {
-  
+
 }

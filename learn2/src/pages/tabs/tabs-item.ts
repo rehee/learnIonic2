@@ -11,87 +11,125 @@ export class TabItems {
     menuItems: MenuButton[] = [
     {
       page: this.homePage,
-      text: "HOME",
+      text: "Home",
       name: 'home',
-      icon: 'string',
+      icon: 'home',
       display: true
     },
     {
       page: this.aboutPage,
-      text: "ABOUT",
-      name: 'about',
-      icon: 'string',
+      text: "Featured",
+      name: 'featured',
+      icon: 'bookmark',
       display: true
-    },
+    }
+    ,
     {
-      page: this.contactPage,
-      text: "CONTACT",
-      name: 'contact',
-      icon: 'string',
-      display: true
-    },
-    {
-      page: this.homePage,
-      text: "HOME",
-      name: 'home',
-      icon: 'string',
+      page: this.aboutPage,
+      text: "Notification",
+      name: 'notification',
+      icon: 'medical',
       display: true
     },
     {
       page: this.aboutPage,
-      text: "ABOUT",
-      name: 'about',
-      icon: 'string',
-      display: false
-    },
-    {
-      page: this.contactPage,
-      text: "CONTACT",
-      name: 'contact',
-      icon: 'string',
+      text: "My Church",
+      name: 'mychurch',
+      icon: 'people',
       display: true
-    },
-    {
-      page: this.homePage,
-      text: "HOME",
-      name: 'home',
-      icon: 'string',
-      display: false
     },
     {
       page: this.aboutPage,
-      text: "ABOUT",
-      name: 'about',
-      icon: 'string',
-      display: false
-    },
-    {
-      page: this.contactPage,
-      text: "CONTACT",
-      name: 'contact',
-      icon: 'string',
-      display: false
-    },
-     {
-      page: this.contactPage,
-      text: "111",
-      name: 'contact',
-      icon: 'string',
+      text: "What's On",
+      name: 'whatson',
+      icon: 'calendar',
       display: true
     },
     {
-      page: this.contactPage,
-      text: "222",
-      name: 'contact',
-      icon: 'string',
+      page: this.aboutPage,
+      text: "Give",
+      name: 'give',
+      icon: 'card',
       display: true
     },
     {
-      page: this.contactPage,
-      text: "333",
-      name: 'contact',
-      icon: 'string',
+      page: this.aboutPage,
+      text: "Prayer",
+      name: 'prayer',
+      icon: 'chatbubbles',
       display: true
-    },
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "Podcasting",
+      name: 'podcasting',
+      icon: 'logo-youtube',
+      display: true
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "Social Feed",
+      name: 'socialfeed',
+      icon: 'logo-rss',
+      display: true
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "Tickets",
+      name: 'tickets',
+      icon: 'pricetag',
+      display: true
+    } ,
+    {
+      page: this.aboutPage,
+      text: "Map",
+      name: 'map',
+      icon: 'navigate',
+      display: true
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "My Details",
+      name: 'mydetails',
+      icon: 'plane',
+      display: true
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "My Avaliable",
+      name: 'myavaliable',
+      icon: 'person',
+      display: true
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "App Setting",
+      name: 'appsetting',
+      icon: 'settings',
+      display: true
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "About",
+      name: 'About',
+      icon: 'information-circle',
+      display: true
+    }
+    ,
+    {
+      page: this.aboutPage,
+      text: "Logout",
+      name: 'Logout',
+      icon: 'power',
+      display: true
+    }
+    
   ];
 }

@@ -27,7 +27,6 @@ export class TabsPage implements OnInit {
 
   scrollableTabsopts: any = {};
   refreshScrollbarTabs() {
-    console.log(1);
     this.scrollableTabsopts = { refresh: true };
   }
 
@@ -44,7 +43,7 @@ export class TabsPage implements OnInit {
       response => {
         this.church = response;
         this.RenewTable();
-        this.RenewTable();
+        // this.RenewTable();
       }
     )
   }
