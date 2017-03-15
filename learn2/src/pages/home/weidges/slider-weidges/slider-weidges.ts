@@ -15,7 +15,7 @@ export class HomeSliderComponent implements OnInit {
         console.log(this.bannerSlider);
         this.bannerSlider.startAutoplay();
         
-        console.log(this.bannerSlider.autoplay);
+        console.log(this.bannerSlider.startAutoplay);
     }
     ngOnInit() { 
        
