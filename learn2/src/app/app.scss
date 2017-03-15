@@ -23,3 +23,10 @@
 .txt-a-center{
     text-align: center;
 }
+.popover-content{
+        left: 5%!important;
+        width: 90%!important;
+    }
+.popover-ios .popover-arrow::after{
+    background-color: transparent!important;
+}

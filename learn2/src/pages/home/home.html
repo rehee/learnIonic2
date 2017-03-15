@@ -5,17 +5,30 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col width-50>
+          <button ion-button block="true" (click)="showPrompt()"></button>
+        </ion-col>
+        <ion-col width-50>
+          <button ion-button block="true" (click)="loginPop($event)"></button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
   <div *ngFor="let item of data;">
     <div [ngSwitch]="item.type">
       <home-link *ngSwitchCase="'link'" [data]="item"></home-link>
       <home-block *ngSwitchCase="'block'" [data]="item"></home-block>
       <home-vote *ngSwitchCase="'votd'" [data]="item"></home-vote>
       <home-slider *ngSwitchCase="'scroller'" [data]="item"></home-slider>
-      <div *ngSwitchCase="'blog'" ></div>
-      <div *ngSwitchCase="'event'" ></div>
-      <div *ngSwitchCase="'giving'" ></div>
+      <div *ngSwitchCase="'blog'"></div>
+      <div *ngSwitchCase="'event'"></div>
+      <div *ngSwitchCase="'giving'"></div>
       <div *ngSwitchDefault>
-        
+
       </div>
     </div>
   </div>

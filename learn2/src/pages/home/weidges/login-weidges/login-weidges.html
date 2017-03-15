@@ -1,0 +1,27 @@
+<ion-card>
+
+    <ion-card-header>
+        Login
+    </ion-card-header>
+
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-input placeholder="Email"></ion-input>
+                    <ion-input placeholder="Password" type="password"></ion-input>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-50>
+                    <button ion-button block="true">Login</button>
+                </ion-col>
+                <ion-col width-50>
+                    <button ion-button block="true" (click)="close()" >Cancel</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </ion-card-content>
+
+</ion-card>
