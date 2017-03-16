@@ -5,13 +5,13 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
-import { CommonService, DeviceService, DataService, CoreService } from '../providers/common-service';
+import { CoreService,ApiService,CommonService, DeviceService, DataService } from '../providers/common-service';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { ScrollableTabs } from '../components/scroll-tab/scrollable-tabs'
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular'
-import { HomeBlockComponent, HomeLinkComponent, HomeVoteComponent, HomeSliderComponent,HomeLoginComponent } from '../pages/home/weidges/index';
+import { HomeBlockComponent, HomeLinkComponent, HomeVoteComponent, HomeSliderComponent,HomeLoginComponent,HomeRefreshComponent } from '../pages/home/weidges/index';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'b3dcf650',
@@ -40,7 +40,7 @@ const cloudSettings: CloudSettings = {
     HomeLinkComponent,
     HomeVoteComponent,
     HomeSliderComponent,
-    HomeLoginComponent,
+    HomeLoginComponent,HomeRefreshComponent,
     TabsPage,
     ScrollableTabs,
 
@@ -59,7 +59,7 @@ const cloudSettings: CloudSettings = {
     HomeLoginComponent,
     TabsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, CommonService, DeviceService, DataService, CoreService
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler },ApiService, CommonService, DeviceService, DataService, CoreService
   ]
 })
 export class AppModule {

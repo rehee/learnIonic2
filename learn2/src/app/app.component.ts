@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform,LoadingController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { DeviceService, CommonService, DataService } from '../providers/common-service';
 import { Storage } from '@ionic/storage';
-
 import { TabsPage } from '../pages/tabs/tabs';
 import { Device } from 'ionic-native';
 import { Push, PushToken } from '@ionic/cloud-angular'
@@ -12,7 +11,9 @@ import { Push, PushToken } from '@ionic/cloud-angular'
 })
 export class MyApp {
   rootPage = TabsPage;
-  constructor(platform: Platform, deviceService: DeviceService, public commonService: CommonService, storage: Storage, public dataService: DataService, public push: Push) {
+  load = this.loading.create({content:'Loading...'});
+  constructor(private loading: LoadingController,platform: Platform, deviceService: DeviceService, public commonService: CommonService, storage: Storage, public dataService: DataService, public push: Push) {
+    this.load.present();
     platform.ready().then(() => {
       if (Device.uuid != null) {
         this.push.register().then((t: PushToken) => {
@@ -38,16 +39,21 @@ export class MyApp {
         deviceService.SetDeviceModule(false, 'Android', '6.0.', 'c9ba08b93c1bc00', '6.1.2', 'Nexus 7', 'asus', true, '0793a2f4')
 
       }
-      storage.ready().then(() => {
-        commonService.getChurch().subscribe(
-          response => {
-            this.dataService.initData();
-          }
-        )
-      });
+      storage.ready().then(
+        () => {
+          this.initData();
+        }
+      );
 
     });
   }
+
+  private async initData(){
+    let church = await this.commonService.GetChurchAsync();
+    await this.dataService.initData();
+    this.load.dismiss();
+  }
+
 }
 
 

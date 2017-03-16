@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController,AlertController } from 'ionic-angular';
+import { NavController, PopoverController, AlertController } from 'ionic-angular';
 import { CommonService, Church, DataService } from '../../providers/common-service';
 
 import { Storage } from '@ionic/storage';
@@ -16,14 +16,18 @@ export class HomePage {
   data: any[] = [];
   loginPop(event) {
     let popover = this.popoverCtrl.create(
-      HomeLoginComponent      );
+      HomeLoginComponent);
     popover.present({
       ev: event
     });
   }
-  
-  
-   showPrompt() {
+
+  async doRefresh(refresher) {
+    await this.dataservice.FetchContentData();
+    refresher.complete();
+  }
+
+  showPrompt() {
     let prompt = this.alertCtrl.create({
       title: 'Login',
       message: "Enter a name for this new album you're so keen on adding",
@@ -35,7 +39,7 @@ export class HomePage {
         {
           name: 'password',
           placeholder: 'Password',
-          type:'password'
+          type: 'password'
         },
       ],
       buttons: [
@@ -56,7 +60,7 @@ export class HomePage {
     prompt.present();
   }
 
-  constructor(public alertCtrl: AlertController,public popoverCtrl: PopoverController, public navCtrl: NavController, public commonService: CommonService, public dataservice: DataService, public storage: Storage) {
+  constructor(public alertCtrl: AlertController, public popoverCtrl: PopoverController, public navCtrl: NavController, public commonService: CommonService, public dataservice: DataService, public storage: Storage) {
   }
 
   ngOnInit() {

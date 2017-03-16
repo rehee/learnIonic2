@@ -1,21 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import { DeviceModule } from './device';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/throw';
-
-
-
-/*
-  Generated class for the CommenService provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class DeviceService {
   ThisDevice: DeviceModule = new DeviceModule();
@@ -46,17 +30,7 @@ export class DeviceService {
   }
 
 
-  constructor(public http: Http) {
+  constructor() {
 
   }
-
-
-
-
-
-
-  // private handleError(error: Response) {
-  //   console.error(error);
-  //   return Observable.throw(error.json().error || 'Server error');
-  // }
 }
