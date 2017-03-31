@@ -9,18 +9,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card>
-    <ion-grid>
-      <ion-row>
-        <ion-col width-50>
-          <button ion-button block="true" (click)="showPrompt()"></button>
-        </ion-col>
-        <ion-col width-50>
-          <button ion-button block="true" (click)="loginPop($event)"></button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card>
+  <home-login-promp *ngIf="isAuth==false"></home-login-promp>
 
   <div *ngFor="let item of data;">
     <div [ngSwitch]="item.type">
@@ -36,5 +25,4 @@
       </div>
     </div>
   </div>
-  <input type="button" (click)="showData()" value="123">
 </ion-content>

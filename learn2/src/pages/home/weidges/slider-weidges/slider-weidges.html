@@ -1,7 +1,7 @@
 <ion-card>
-    <ion-slides #bannerSlider pager="true" autoplay=“2000” loop="true" (ionSlideDrag)="stopAutoplay()" >
-        <ion-slide *ngFor="let slide of data?.data">
+    <ion-slides #bannerSlider loop="true" (ionSlideDrag)="stopAutoplay()" >
+        <ion-slide *ngFor="let slide of slider">
             <img style="width:100%" [src]="slide?.image?.b64">
         </ion-slide>
-    </ion-slides>
+    </ion-slides> 
 </ion-card>

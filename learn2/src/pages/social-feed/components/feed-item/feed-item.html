@@ -1,0 +1,14 @@
+<ion-col width-20 class="center">
+    <img [src]="FeedItem.author.image" alt="">
+</ion-col>
+<ion-col width-70 class="center">
+    <p class="align-left">
+        {{FeedItem.author.name}} {{FeedItem.title}}
+    </p>
+    <div class="align-left" [innerHTML]="FeedItem?.content?.content | safeHtml"></div>
+
+</ion-col>
+<ion-col width-10 class="center">
+    <p><i class="{{FeedItemIcon()}}"></i></p>
+    <p>{{FeedItem?.date|stringToTime|timeSpend}}</p>
+</ion-col>

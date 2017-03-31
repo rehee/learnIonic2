@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, AlertController } from 'ionic-angular';
+import { NavController, PopoverController } from 'ionic-angular';
+import { Events } from 'ionic-angular';
 import { CommonService, Church, DataService } from '../../providers/common-service';
 
 import { Storage } from '@ionic/storage';
@@ -14,6 +15,7 @@ export class HomePage {
   title: string = this.commonService.title;
   church: Church = new Church();
   data: any[] = [];
+  isAuth: boolean = false;
   loginPop(event) {
     let popover = this.popoverCtrl.create(
       HomeLoginComponent);
@@ -24,47 +26,28 @@ export class HomePage {
 
   async doRefresh(refresher) {
     await this.dataservice.FetchContentData();
+    let data = await this.dataservice.refreshPageData();
+    this.data = data.map(d => d);
     refresher.complete();
   }
 
-  showPrompt() {
-    let prompt = this.alertCtrl.create({
-      title: 'Login',
-      message: "Enter a name for this new album you're so keen on adding",
-      inputs: [
-        {
-          name: 'title',
-          placeholder: 'Title'
-        },
-        {
-          name: 'password',
-          placeholder: 'Password',
-          type: 'password'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            console.log(data);
-          }
-        }
-      ]
-    });
-    prompt.present();
+  constructor(public event: Events, public popoverCtrl: PopoverController, public navCtrl: NavController, public commonService: CommonService, public dataservice: DataService, public storage: Storage) {
+    event.subscribe('LoginMayChange', (status) => {
+      this.isAuth = status;
+    })
   }
 
-  constructor(public alertCtrl: AlertController, public popoverCtrl: PopoverController, public navCtrl: NavController, public commonService: CommonService, public dataservice: DataService, public storage: Storage) {
-  }
+  async ngOnInit() {
+    let data = await this.dataservice.refreshPageData();
+    if (data == null) {
+      await this.dataservice.FetchContentData();
+      data = await this.dataservice.refreshPageData();
+    }
+    if (data != null) {
+      this.data = data.map(d => d);
+    }
+    this.isAuth = await this.dataservice.getUserAuthAsync();
 
-  ngOnInit() {
-    this.data = this.dataservice.homePageData;
   }
 
   showData() {

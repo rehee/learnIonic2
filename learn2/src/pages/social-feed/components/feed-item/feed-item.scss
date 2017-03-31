@@ -1,0 +1,21 @@
+feed-item{
+    width:100%;
+    display: inline-flex;
+
+    p{
+        margin: 0px;
+        padding: 0px;
+        word-break: break-all;
+    }
+    .center{
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
+    }
+    .center p{
+        text-align: center;
+    }
+   .align-left{
+        text-align: left!important;
+    }
+}

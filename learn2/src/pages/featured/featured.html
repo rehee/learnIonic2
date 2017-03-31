@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Featured</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!--<ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>-->
+
+  <div *ngFor="let item of Data">
+    <div [ngSwitch]="item.type">
+      <home-link *ngSwitchCase="'link'" [data]="item"></home-link>
+      <home-block *ngSwitchCase="'block'" [data]="item"></home-block>
+      <home-vote *ngSwitchCase="'votd'" [data]="item"></home-vote>
+      <home-slider *ngSwitchCase="'scroller'" [data]="item"></home-slider>
+      <div *ngSwitchCase="'blog'"></div>
+      <div *ngSwitchCase="'event'"></div>
+      <div *ngSwitchCase="'giving'"></div>
+      <div *ngSwitchDefault>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

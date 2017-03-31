@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Social Feed
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div>
+
+  </div>
+
+  <ion-grid>
+    <ion-row *ngFor="let item of Medias">
+      <feed-item [FeedItem]=item></feed-item>
+      <ion-col>
+        <img src="assets/images/divider.png" alt="">
+      </ion-col>
+    </ion-row>   
+  </ion-grid>
+</ion-content>

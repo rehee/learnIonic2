@@ -22,10 +22,15 @@
     "@angular/platform-server": "2.4.8",
     "@ionic/cloud-angular": "^0.11.0",
     "@ionic/storage": "^2.0.0",
+    "angular-calendar": "^0.9.0",
+    "angular2-useful-swiper": "^3.0.0",
     "hammerjs": "^2.0.8",
     "ionic-angular": "2.2.0",
+    "ionic-audio": "^2.3.4",
     "ionic-native": "2.4.1",
     "ionicons": "3.0.0",
+    "jquery": "^3.2.1",
+    "primeng": "^2.0.5",
     "rxjs": "5.0.1",
     "sw-toolbox": "3.4.0",
     "typescript": "^2.2.1",
@@ -33,6 +38,10 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "1.1.4",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.21",
+    "@types/jquery": "^2.0.41",
+    "font-awesome": "^4.7.0",
+    "ng2-slides": "^0.5.1",
     "typescript": "2.2.1"
   },
   "cordovaPlugins": [
@@ -51,5 +60,11 @@
       "locator": "ios"
     }
   ],
-  "description": "learn2: An Ionic project"
+  "description": "learn2: An Ionic project",
+  "config": {
+    "ionic_bundler": "webpack",
+    "ionic_source_map": "source-map",
+    "ionic_copy": "./config/copy.config.js",
+    "ionic_sass": "./config/sass.config.js"
+}
 }

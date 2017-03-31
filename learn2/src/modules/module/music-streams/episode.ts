@@ -1,0 +1,21 @@
+export class Episode{
+    author:string;
+    episode_cal_id:any;
+    episode_date:string;
+    episode_desc:string;
+    episode_hostedurl:string;
+    episode_id:number;
+    episode_length:string;
+    episode_localurl:string;
+    episode_moved:number;
+    episode_series:number;
+    episode_speaker_1:string;
+    episode_stream:number;
+    episode_subtitle:string;
+    episode_title:string;
+    episode_uploaded_by:number;
+    episode_uploaded_date:Date;
+    p1_name:string;
+    p2_name:string;
+    p3_name:string;
+}

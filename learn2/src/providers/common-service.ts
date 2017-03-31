@@ -6,4 +6,7 @@ export * from './common-service/device';
 
 export * from './data-service/data-service'
 export * from './core-service/core-service';
+export * from './core-service/core-function';
+export * from './menu-service/menu-service';
+export * from './media-service/index';
 

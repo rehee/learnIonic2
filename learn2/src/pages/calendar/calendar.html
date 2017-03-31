@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+       {{ viewDate | calendarDate:(view+'ViewTitle'):'en' }}
+      
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!--<ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>-->
+<ion-grid>
+        <ion-row>
+            <ion-col width-50>
+                <button full ion-button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"> prev</button>
+            </ion-col>
+
+            <ion-col width-50>
+                <button full ion-button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"> next</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+  <mwl-calendar-month-view #caland [viewDate]="viewDate" [events]="events" (dayClicked)="dayClicked($event.day)">
+  </mwl-calendar-month-view>
+
+</ion-content>

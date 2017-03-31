@@ -30,3 +30,10 @@
 .popover-ios .popover-arrow::after{
     background-color: transparent!important;
 }
+
+.list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block {
+    border:none;
+}
+.list-ios > .item-block:first-child {
+    border:none;
+}

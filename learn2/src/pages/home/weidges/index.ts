@@ -4,3 +4,4 @@ export * from './vote-weidges/vote-weidges';
 export * from './slider-weidges/slider-weidges';
 export * from './login-weidges/login-weidges';
 export * from './refresher-weidges/refresher-weidges';
+export * from './login-promp-weidges/login-promp-weidges'

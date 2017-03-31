@@ -12,6 +12,15 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <access origin="*"/>
+   <allow-navigation href="*://*.abcxyz.com/*" />
+   <allow-navigation href="*://*.abcxyz.com" />
+   <allow-navigation href="*://*.jquery.com/*" />
+    
+    <!-- Allow links to web pages to open in a browser -->
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>

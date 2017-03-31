@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Podcasts
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <div *ngFor="let track of myTracks">
+      <ion-item>
+        <ion-thumbnail item-left>
+          <!--<img src="{{track.art}}">-->
+          <audio-track-play dark [audioTrack]="track">
+            <ion-spinner></ion-spinner>
+          </audio-track-play>
+        </ion-thumbnail>
+        <div item-content style="width:100%">
+          <p><strong>{{track.title}}</strong> ⚬ <em>{{track.artist}}</em></p>
+          <audio-track-progress-bar dark duration progress [audioTrack]="track" [ngStyle]="{visibility: track.completed > 0 ? 'visible' : 'hidden'}"></audio-track-progress-bar>
+        </div>
+      </ion-item>
+    </div>
+
+
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4 *ngFor="let item of ThisSerial">
+        <img src="{{item.series_image|imageTo64|async}}" alt="" (click)="FindEpisode(item);">
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>

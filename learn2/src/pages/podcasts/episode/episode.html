@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      episode
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+<ion-list>
+  <ion-item>
+    <ion-avatar item-left>
+      <img [src]="MusicDetail?.data?.series?.series_image">
+    </ion-avatar>
+    <h2>{{MusicDetail?.data?.series?.series_title}}</h2>
+    <p>{{MusicDetail?.data?.series?.count}} Episodes</p>
+    <p><button (click)="Close()" >close</button></p>
+  </ion-item>
+  <ion-item *ngFor="let item of MusicDetail?.data?.series?.episodes" (click)="SelectMusic(item)">
+    {{item.episode_title}}
+  </ion-item>
+</ion-list>
+
+
+</ion-content>
