@@ -5,6 +5,8 @@ import { DeviceService, CommonService, AppKeyType, ApiService } from '../common-
 import { ApiMedia } from '../media-service/api-media';
 import { GiveModule, GivingFIrstSubmit, GivingSecondSubmit, GiveIknow } from '../../modules/index';
 import { Church } from '../common-service/church';
+import { CoreFunction } from '../core-service/core-function';
+import { AppConfig, IknowApiCall, HttpType } from '../../modules/index';
 /*
   Generated class for the DataService provider.
 
@@ -17,6 +19,44 @@ export class DataService {
   constructor(public apiMedia: ApiMedia, public events: Events, public deviceService: DeviceService, public commonService: CommonService, public storage: Storage, public api: ApiService) {
 
   }
+  private async httpRequest() {
+    let church: Church = await this.api.GetChurchPromise()
+    return CoreFunction.GetHttpResponseAsync(
+      CoreFunction.GetHttpPromise,
+      CoreFunction.GetHttpObserveAsync(this.api.http, CoreFunction.GetIknowOption(await this.getStoragePromise<string>(AppKeyType.ApiKey.toString()))),
+      AppConfig.GetApiBaseUrl(church.init.base_url)
+    )
+  }
+
+  private async httpRequestAsync(){
+    let church: Church = await this.api.GetChurchPromise()
+    return await CoreFunction.GetHttpResponseAsyncResult(
+      this.api.http,
+      CoreFunction.GetIknowOption(await this.getStoragePromise<string>(AppKeyType.ApiKey.toString())),
+      church.init.base_url,
+      CoreFunction.GetHttpPromise,
+      CoreFunction.GetHttpObserveAsync,
+      AppConfig.GetApiBaseUrl
+    );
+  }
+    
+  
+
+  private async httpRequestAsyc(){
+    let response = await this.httpRequest();
+    
+  }
+
+  private async getContentPromise(isLogout: boolean = false) {
+    let getContentApi = await this.httpRequest()
+    return <any>getContentApi(
+      HttpType.Post,
+      isLogout ? IknowApiCall.LogOut : IknowApiCall.GetAllAppInfo,
+      this.deviceService.getWhoami(), ""
+    );
+  }
+
+
   homePageData: any[] = [];
 
 
@@ -71,10 +111,8 @@ export class DataService {
       return;
     }
     let url = church.init.base_url;
-    let content = await this.api.GetContentPromise(
-      await this.getStoragePromise<any>(AppKeyType.ApiKey.toString()),
-      url, this.deviceService.getWhoami(), isLogout
-    );
+    let content = await this.getContentPromise(isLogout);
+    console.log(await this.getContentPromise(isLogout));
     if (content == null) {
       this.storage.set(this.getStorageKey(AppKeyType.ApiKey.toString()), null);
       return;
@@ -83,26 +121,27 @@ export class DataService {
     return;
   }
 
+
+
   async PostLoginRequestAsync(email: string, pass: string) {
     let church = await this.commonService.GetChurchAsync();
     if (church == null) {
       this.refreshPageData();
       return;
     }
-    let url = church.init.base_url;
     let result = null;
-    result = await this.api.PostLoginRequestPromise(
-      await this.getStoragePromise<string>(AppKeyType.ApiKey.toString()),
-      url, email, pass
-    );
+    var httpAjax = await this.httpRequest();
+    var userLogin = {
+      email: email,
+      password: pass
+    }
+    result = await httpAjax(HttpType.Post, IknowApiCall.Login, userLogin);
+    console.log(result);
     if (result == null) {
       return 'Login server error, plase login later.';
     }
-    if (result._body == undefined) {
-      return 'Login server error, plase login later.';
-    }
     try {
-      let data = JSON.parse(result._body)
+      let data = result;
       if (!data.auth.status) {
         return 'email and password does not match';
       }
@@ -130,16 +169,6 @@ export class DataService {
   }
 
   async refreshPageData() {
-    // let homePageData = await this.getStoragePromise<any[]>('home');
-    // if (homePageData != null) {
-    //   if (this.homePageData.length > 0) {
-    //     this.homePageData.splice(0, this.homePageData.length);
-    //   }
-    //   for (let item of homePageData) {
-    //     this.homePageData.push(item);
-    //   }
-    // }
-    // return this.homePageData;
     return await this.getStoragePromise<any[]>('home');
   }
 
@@ -176,26 +205,45 @@ export class DataService {
     );
   }
 
- async GetMediaSerial(streamId:number,serial:number){
+  async GetMediaSerial(streamId: number, serial: number) {
     return await this.apiMedia.GetMediaPromise(
       await this.getStoragePromise<string>(AppKeyType.ApiKey.toString()),
-      this.commonService.ThisChurch.init.base_url,streamId,serial
+      this.commonService.ThisChurch.init.base_url, streamId, serial
     )
   }
   async RefreshCampaigns() {
     return await this.getStoragePromise<any>('campaigns');
   }
 
-  async RefreshSocialFeed(){
+  async RefreshSocialFeed() {
     return await this.getStoragePromise<any>('media');
   }
 
   async RefreshMediastreams() {
     return await this.getStoragePromise<any>('mediastreams');
   }
+  async RefresAppInformation() {
+    return await this.getStoragePromise<any>('info');
+  }
 
+  async RefreshMyHoliday(){
+    let httpRequest = await this.httpRequest();
+    return await httpRequest(HttpType.Get,IknowApiCall.GetMyHoliday);
+  }
+  async AddRefreshMyHoliday(model:any){
+    let httpRequest = await this.httpRequest();
+    return await httpRequest(HttpType.Post,IknowApiCall.GetMyHoliday,model);
+  }
+  async DeleteRefreshMyHoliday(id:any){
+    let httpRequest = await this.httpRequest();
+    return await httpRequest(HttpType.Delete,IknowApiCall.GetMyHoliday,null,`/${id}`);
+  }
+
+  async RefreshMyDetail(){
+    return await (await this.httpRequest())(HttpType.Get,IknowApiCall.MyAccount,null,"");
+  }
   private analysisHttpBack(input) {
-    if(input==null){
+    if (input == null) {
       return null;
     }
     return input;

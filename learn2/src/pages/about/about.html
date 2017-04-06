@@ -7,5 +7,45 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card>
+
+    <ion-card-content>
+      <div [innerHTML]="AppInformation?.powered_text | safeHtml">
+
+      </div>
+    </ion-card-content>
+
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <div [innerHTML]="AppInformation?.about_text | safeHtml">
+
+      </div>
+    </ion-card-content>
+
+  </ion-card>
+  
+
+  <ion-card>
+    <button ion-button block>Tweet</button>
+  </ion-card>
+  
+  <ion-card>
+
+   
+
+    <ion-card-content>
+      <p></p>
+      <p>APP ID:{{Church?.init.app_name}}</p>
+      <p>APP Version:{{Church?.init.app_version}}</p>
+      <p>API Version:{{Church?.init.api_version}}</p>
+
+    </ion-card-content>
+
+  </ion-card>
 
 </ion-content>

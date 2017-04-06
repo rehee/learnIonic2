@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Add Holiday</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <button ion-button block (click)="save()"> save </button>
+<button ion-button block> cancel </button>
+    <ion-list>
+
+        <ion-item>
+            <ion-label floating>Description</ion-label>
+            <ion-input type="text" value="" [(ngModel)]="Title" ></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Start Time</ion-label>
+            <ion-datetime displayFormat="DD MM YYYY" [(ngModel)]="StartDate"  pickerFormat="DD MM YYYY" [min]="min" [max]="max"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-label>Finish Time</ion-label>
+            <ion-datetime displayFormat="DD MM YYYY" [(ngModel)]="FinishDate"  pickerFormat="DD MM YYYY" [min]="min" [max]="max"></ion-datetime>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

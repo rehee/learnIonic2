@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      My Detail
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-list-header>
+      Personan Detail
+    </ion-list-header>
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="MyDetail.NAME"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Email Address</ion-label>
+      <ion-input type="text" [(ngModel)]="MyDetail.EMAIL"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Mobile</ion-label>
+      <ion-input type="text" [(ngModel)]="MyDetail.MOBILE"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Facebook ID</ion-label>
+      <ion-input type="text" [(ngModel)]="MyDetail.FACEBOOK"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Twitter Handle</ion-label>
+      <ion-input type="text" [(ngModel)]="MyDetail.TWITTER"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Gender</ion-label>
+      <ion-select [(ngModel)]="MyDetail.GENDER">
+        <ion-option *ngFor="let item of Gender.options" [value]="item.value">{{item.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Date of Birth</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" [(ngModel)]="BirthDay"></ion-datetime>
+    </ion-item>
+    <ion-list-header>
+      More Detail
+    </ion-list-header>
+    <ion-item>
+      <ion-label floating>Relationship Status</ion-label>
+      <ion-select [(ngModel)]="MyDetail.RELATION">
+        <ion-option *ngFor="let item of Relation.options" [value]="item.value">{{item.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Language</ion-label>
+      <ion-select [(ngModel)]="MyDetail.LANGUAGE">
+        <ion-option value="0">Selected</ion-option>
+        <ion-option *ngFor="let item of Language.options" [value]="item.value">{{item.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Employment Status</ion-label>
+      <ion-select [(ngModel)]="MyDetail.EMPLOYMENT">
+        <ion-option *ngFor="let item of Employee.options" [value]="item.value">{{item.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Nationality</ion-label>
+      <ion-select [(ngModel)]="MyDetail.NATION">
+        <ion-option value="0">Selected</ion-option>
+        <ion-option *ngFor="let item of Nationality.options" [value]="item.value">{{item.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+
+</ion-content>

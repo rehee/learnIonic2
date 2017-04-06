@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>My Avaliablitity</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <p>
+        Here you can add any dates you are unavaliable to serve on a role
+    </p>
+
+    <br>
+    <button ion-button block (click)="AddHoliday()"> 
+      Add Reservedd Period
+  </button>
+
+    <ion-list>
+        <ion-item *ngFor="let item of Holidays">
+            <ion-thumbnail item-left>
+                <i class="fa fa-plane"></i>
+            </ion-thumbnail>
+            <h2>{{item.hp_title}}</h2>
+            <p>{{item.hp_start|stringToTime|date:'EEE dd MMM y'}}~{{item.hp_finish|stringToTime|date:'EEE dd MMM y'}}</p>
+            <button ion-button clear item-right (click)="delete(item.hp_id)" >
+                <p class="big"><i class="fa fa-trash-o"></i></p>
+                <p class="blabel">Remove</p>
+            </button>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

@@ -13,6 +13,12 @@ import { GiveModule, GivingFIrstSubmit, GivingSecondSubmit, GiveIknow } from '..
 
 @Injectable()
 export class ApiService {
+    constructor(public http: Http) { }
+    httpRequest:any = CoreFunction.GetHttpResponse(
+        CoreFunction.GetHttpPromise,
+        CoreFunction.GetHttpObserve(this.http)
+    );
+
     GetChurchPromise(): Promise<Church> {
         return new Promise<Church>((resolve, reject) => {
             CoreFunction.GetHttpObservable(
@@ -35,15 +41,12 @@ export class ApiService {
                 )
         })
     }
-    GetContentPromise(apiKey: string, url: string, whoami: any, isLogout: boolean = false) {
-        return new Promise((resolve, reject) => {
-            let urlWillUse = isLogout ? AppConfig.GetApiUrl(IknowApiCall.LogOut, url) : AppConfig.GetApiUrl(IknowApiCall.GetAllAppInfo, url);
+    async GetContentPromise(apiKey: string, url: string, whoami: any, isLogout: boolean = false):Promise<any> {
+        let urlWillUse = isLogout ? AppConfig.GetApiUrl(IknowApiCall.LogOut, url) : AppConfig.GetApiUrl(IknowApiCall.GetAllAppInfo, url);
             let apikeyWillUse = isLogout ? null : apiKey;
-            CoreFunction.GetHttpObservable(this.http, HttpType.Post, urlWillUse, JSON.stringify(whoami), CoreFunction.GetIknowOption(apikeyWillUse)).subscribe(
-                response => resolve(response),
-                error => resolve(null)
-            )
-        });
+        return <any>this.httpRequest(
+            HttpType.Post,CoreFunction.GetIknowOption(apikeyWillUse),urlWillUse,whoami
+        );
     }
 
     PostLoginRequestPromise(apiKey: string, url: string, userEmail: string, userPass: string) {
@@ -72,15 +75,9 @@ export class ApiService {
             "lat": lat,
             "long": long
         };
-        return new Promise((resolve, reject) => {
-            CoreFunction.GetHttpObservable(
-                this.http, HttpType.Post, AppConfig.GetApiUrl(IknowApiCall.Register, url),
-                JSON.stringify(post), CoreFunction.GetIknowOption(apiKey)
-            ).subscribe(
-                response => resolve(response),
-                error => resolve(null)
-                )
-        })
+        return <any>this.httpRequest(
+            HttpType.Post,CoreFunction.GetIknowOption(apiKey),AppConfig.GetApiUrl(IknowApiCall.Register, url),post
+        );
     }
 
     PrepareSubmitDonationPromise(apiKey: string, url: string, firstModule: GivingFIrstSubmit): Promise<any> {
@@ -132,6 +129,7 @@ export class ApiService {
             )
         })
     }
+    
     PutSubDonationFirst(apiKey: string, url: string, iknow: GiveIknow) {
         let headers = new Headers({ "Content-Type": "application/json", "iknow-api-key": apiKey })
         let options = new RequestOptions({ headers: headers });
@@ -149,6 +147,6 @@ export class ApiService {
         console.error(error);
         return Observable.throw(error.json().error || 'Server error');
     }
-    constructor(private http: Http) { }
+    
 
 }

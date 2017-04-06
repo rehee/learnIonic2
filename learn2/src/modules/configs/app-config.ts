@@ -1,30 +1,42 @@
-export enum HttpType{
-    Get=1,
-    Post=2,
-    Put=3
+export enum HttpType {
+    Get = 1,
+    Post = 2,
+    Put = 3,
+    Delete=4
 }
-export enum IknowApiCall{
-    ChurchInfo=1,
-    GetAllAppInfo=2,
-    LogOut=3,
-    Login=4,
-    Register=5,
+export enum IknowApiCall {
+    ChurchInfo = 1,
+    GetAllAppInfo = 2,
+    LogOut = 3,
+    Login = 4,
+    Register = 5,
     GetGivingId = 6,
-    GetMediaStreams=7
+    GetMediaStreams = 7,
+    GetMyHoliday = 8,
+    MyAccount=9
+
 }
 export class AppConfig {
-    static Url:{[id:number]:string}={
-        [1]:"church/church.json",
-        [2]:"/app/all",
-        [3]:"/app/all?logout=true",
-        [4]:"/auth/login",
-        [5]:"/auth/register",
-        [6]:"/finance/giving_ids",
-        [7]:"/mediastreams"
+    static Url: { [id: number]: string } = {
+        [IknowApiCall.ChurchInfo]: "church/church.json",
+        [IknowApiCall.GetAllAppInfo]: "/app/all",
+        [IknowApiCall.LogOut]: "/app/all?logout=true",
+        [IknowApiCall.Login]: "/auth/login",
+        [IknowApiCall.Register]: "/auth/register",
+        [IknowApiCall.GetGivingId]: "/finance/giving_ids",
+        [IknowApiCall.GetMediaStreams]: "/mediastreams",
+        [IknowApiCall.GetMyHoliday]:"/account/holidays",
+        [IknowApiCall.MyAccount]:"/account"
     }
 
-    static GetApiUrl(apiCall:IknowApiCall,baseUrl:string="",additionalUrl=""){
+    static GetApiUrl(apiCall: IknowApiCall, baseUrl: string = "", additionalUrl = "") {
         return `${baseUrl}${AppConfig.Url[apiCall]}${additionalUrl}`;
+    }
+
+    static GetApiBaseUrl(baseUrl: string) {
+        return (apiCall: IknowApiCall, additionalUrl: string = "") => {
+            return AppConfig.GetApiUrl(apiCall, baseUrl, additionalUrl)
+        }
     }
 
 

@@ -9,6 +9,9 @@ import { HttpType } from '../modules/index';
     name: 'imageTo64'
 })
 export class ImageSrcSavePipe implements PipeTransform {
+    constructor(public storage: Storage) {
+
+    }
     async transform(inputs: string) {
         if(inputs==null||inputs.trim()==""){
             return "";
@@ -33,9 +36,7 @@ export class ImageSrcSavePipe implements PipeTransform {
             )
         })
     }
-    constructor(public storage: Storage) {
-
-    }
+    
 }
 
 

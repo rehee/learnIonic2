@@ -57,18 +57,7 @@ export class MyApp {
         deviceService.SetDeviceModule(false, 'Android', '6.0.', 'c9ba08b93c1bc00', '6.1.2', 'Nexus 7', 'asus', true, '0793a2f4')
 
       }
-      let c = CoreFunction.ComponseFunctins([
-        (int) => Math.round(int / 1000 / 60 / 60 / 24 / 365),
-        (int) => new Date().getTime() - int,
-        async (date) => {
-          await CoreFunction.Delay(1000);
-          return date.getTime();
-        },
-        (input) => new Date(input)
-      ]);
-
-
-      storage.ready().then(
+     storage.ready().then(
         () => {
           CoreFunction.ExcutingFunctionByList([
             async () => await commonService.GetChurchAsync(),
@@ -77,9 +66,6 @@ export class MyApp {
             this.load.dismiss();
             this.event.publish('LoginMayChange', await this.dataService.getUserAuthAsync());
             this.sideMenus = this.menus.MenuItems;
-            console.log(await c('2000-01-01'));
-            console.log(await c('2001-01-01'));
-            console.log(await c('2002-01-01'));
           });
         }
       );

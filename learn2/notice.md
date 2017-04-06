@@ -10,3 +10,8 @@ https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp
 https://www.microsoft.com/net/core#macos
 
 http://stackoverflow.com/questions/39122669/using-font-awesome-in-ionic-2
+
+
+/Users/xudonghao/Library/Android/sdk/build-tools/25.0.2/zipalign -v 4 /Users/xudonghao/Desktop/app/testApp/platforms/android/build/outputs/apk/android-release-unsigned.apk
+
+http://ionicframework.com/docs/v1/guide/publishing.html

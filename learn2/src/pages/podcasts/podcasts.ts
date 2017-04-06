@@ -5,6 +5,8 @@ import { MusicStream, MusicSerieEpisodeResponse, MusicSerie, Episode, Track } fr
 import { EpisodeComponent } from './index';
 import { ApiMedia } from '../../providers/media-service/api-media';
 import { AudioProvider } from 'ionic-audio';
+import { CoreFunction } from '../../providers/common-service';
+import { ImageTo64Service } from '../../pipes/index';
 @Component({
     selector: 'podcasts',
     templateUrl: 'podcasts.html'
@@ -23,11 +25,13 @@ export class PodcastPage implements OnInit, OnChanges {
     }
     myTracks: any[] = [];
     allTracks: any[] = [];
+    convertBolb: any = CoreFunction.ConvertUrlToStorageBolb(ImageTo64Service.GetImageDataPromise);
     ngOnChanges() {
 
     }
-    private episodeSelected(item: Episode) {
+    private async episodeSelected(item: Episode) {
         var track: Track = this.apiMedia.ConvertToTrack(item);
+        let c = await this.convertBolb('church/t.mp3');
         if (this.audioProvider.tracks.length <= 0) {
             // this.myTracks=track;
             let newTrack = this.audioProvider.create(track);
@@ -35,7 +39,7 @@ export class PodcastPage implements OnInit, OnChanges {
         if (this.audioProvider.tracks[0].src != track.src) {
             this.audioProvider.tracks[0].stop();
             this.audioProvider.tracks.splice(0, 1);
-            let newTrack = this.audioProvider.create(track);        
+            let newTrack = this.audioProvider.create(track);
         }
 
         this.myTracks = this.audioProvider.tracks

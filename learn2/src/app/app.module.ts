@@ -7,7 +7,7 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 // import { TabsPage } from '../pages/tabs/tabs';
-import { FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage } from '../pages/index';
+import { FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage,MyAvaliablePage,AddHolidayComponent ,MyDetailPage} from '../pages/index';
 import { FeedItemComponent } from '../pages/social-feed/index';
 import { CalendarEventWeidge } from '../pages/calendar/weidges/index';
 import { LogoutComponent } from '../pages/index';
@@ -60,7 +60,9 @@ const cloudSettings: CloudSettings = {
     CalenderPage, CalendarEventWeidge,
     GivePage,
     PodcastPage, EpisodeComponent,
-    SocialFeedPage, FeedItemComponent
+    SocialFeedPage, FeedItemComponent,
+    MyAvaliablePage,AddHolidayComponent,
+    MyDetailPage
 
   ],
   imports: [
@@ -84,7 +86,8 @@ const cloudSettings: CloudSettings = {
     FeaturedPage,
     CalenderPage, CalendarEventWeidge,
     GivePage, PodcastPage, EpisodeComponent,
-    SocialFeedPage
+    SocialFeedPage,MyAvaliablePage,AddHolidayComponent,
+    MyDetailPage
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, ApiService, ApiMedia, CommonService, DeviceService, DataService, CoreService, MenuItems
   ]

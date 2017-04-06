@@ -1,6 +1,6 @@
 import {
-    HomePage, AboutPage, ContactPage, MenuButton,LogoutComponent,
-    FeaturedPage,CalenderPage,GivePage,PodcastPage,SocialFeedPage
+    HomePage, AboutPage, ContactPage, MenuButton, LogoutComponent,
+    FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage, MyAvaliablePage, MyDetailPage
 } from '../../pages/index';
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
@@ -15,47 +15,49 @@ export class MenuItems {
     private homePage: any = HomePage;
     private aboutPage: any = AboutPage;
     private contactPage: any = ContactPage;
-    private logoutPage:any =LogoutComponent;
-    private featuredPage:any =FeaturedPage;
-    private calenderPage:any = CalenderPage;
-    private givePage:any = GivePage;
-    private podcastPage:any =PodcastPage;
-    private socialFeedPage:any =SocialFeedPage;
-    
+    private logoutPage: any = LogoutComponent;
+    private featuredPage: any = FeaturedPage;
+    private calenderPage: any = CalenderPage;
+    private givePage: any = GivePage;
+    private podcastPage: any = PodcastPage;
+    private socialFeedPage: any = SocialFeedPage;
+    private myAvaliablePage: any = MyAvaliablePage;
+    private myDetailPage: any = MyDetailPage;
+
     private changeMenuDisplay(status: boolean) {
         try {
             let menu = this.common.ThisChurch.init.menu;
             let device = this.device.ThisDevice.platform;
             this.MenuItems.splice(0, this.MenuItems.length);
-            for(let item of menu.public){
+            for (let item of menu.public) {
                 let deviceDisplay = false;
-                if(device.toLowerCase().indexOf('ios')>=0){
+                if (device.toLowerCase().indexOf('ios') >= 0) {
                     deviceDisplay = item.ios;
                 }
-                else if(device.toLowerCase().indexOf('android')>=0){
-                    deviceDisplay=item.android;
+                else if (device.toLowerCase().indexOf('android') >= 0) {
+                    deviceDisplay = item.android;
                 }
                 let auth = false;
-                if(item.private==false){
+                if (item.private == false) {
                     auth = true;
-                }else{
+                } else {
                     auth = status;
                 }
-                if(deviceDisplay&&auth){
-                   for(let menuItem of this.menuItems){
-                       if(menuItem.name == item.href){
-                           this.MenuItems.push(menuItem);
-                       }
-                   } 
+                if (deviceDisplay && auth) {
+                    for (let menuItem of this.menuItems) {
+                        if (menuItem.name == item.href) {
+                            this.MenuItems.push(menuItem);
+                        }
+                    }
                 }
             }
 
 
         }
-        catch(e){
+        catch (e) {
 
         }
-        
+
     }
 
 
@@ -145,7 +147,7 @@ export class MenuItems {
         }
         ,
         {
-            page: this.aboutPage,
+            page: this.myDetailPage,
             text: "My Details",
             name: 'mydetails',
             icon: 'plane',
@@ -153,7 +155,7 @@ export class MenuItems {
         }
         ,
         {
-            page: this.aboutPage,
+            page: this.myAvaliablePage,
             text: "My Availability",
             name: 'holidays',
             icon: 'person',
