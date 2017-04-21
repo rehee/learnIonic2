@@ -29,7 +29,8 @@
   <ion-grid>
     <ion-row>
       <ion-col col-4 *ngFor="let item of ThisSerial">
-        <img src="{{item.series_image|imageTo64|async}}" alt="" (click)="FindEpisode(item);">
+        <!--<img [src]="item.series_image|imageTo64|async" alt="" (click)="FindEpisode(item);">-->
+        <img-lazy [src]="item.series_image" (click)="FindEpisode(item);"></img-lazy>
       </ion-col>
 
     </ion-row>

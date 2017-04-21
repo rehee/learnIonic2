@@ -1,0 +1,27 @@
+<style>
+    table {
+        width: 100%;
+        text-align: left;
+    }
+</style>
+
+<h2>{{Rota.date|stringToTime|date:'EEEE dd MMMM'}}</h2>
+
+<table>
+    <tr>
+        <td style="width: 40%">Role</td>
+        <td>People</td>
+    </tr>
+    <tr>
+        <td>Sound</td>
+        <td>{{RolesName('Sound')}}</td>
+    </tr>
+    <tr>
+        <td>Lights</td>
+        <td>{{RolesName('Lights')}}</td>
+    </tr>
+    <tr>
+        <td>Overhead</td>
+        <td>{{RolesName('Overhead')}}</td>
+    </tr>
+</table>

@@ -12,10 +12,23 @@ import { HomeLoginComponent } from './weidges/index';
 })
 
 export class HomePage {
+  constructor(public event: Events, public popoverCtrl: PopoverController, public navCtrl: NavController, public commonService: CommonService, public dataservice: DataService, public storage: Storage) {
+    event.subscribe('LoginMayChange', (status) => {
+      this.isAuth = status;
+    })
+  }
+  async ngOnInit() {
+    // await this.refreshPage(false);
+  }
+  ionViewDidLoad() {
+    this.refreshPage(false);
+  }
   title: string = this.commonService.title;
   church: Church = new Church();
   data: any[] = [];
-  isAuth: boolean = false;
+  isAuth: boolean = true;
+
+
   loginPop(event) {
     let popover = this.popoverCtrl.create(
       HomeLoginComponent);
@@ -25,30 +38,25 @@ export class HomePage {
   }
 
   async doRefresh(refresher) {
-    await this.dataservice.FetchContentData();
-    let data = await this.dataservice.refreshPageData();
-    this.data = data.map(d => d);
+    await this.refreshPage(true);
     refresher.complete();
   }
 
-  constructor(public event: Events, public popoverCtrl: PopoverController, public navCtrl: NavController, public commonService: CommonService, public dataservice: DataService, public storage: Storage) {
-    event.subscribe('LoginMayChange', (status) => {
-      this.isAuth = status;
-    })
-  }
-
-  async ngOnInit() {
-    let data = await this.dataservice.refreshPageData();
-    if (data == null) {
+  async refreshPage(refreshData: boolean = false) {
+    if (refreshData) {
       await this.dataservice.FetchContentData();
-      data = await this.dataservice.refreshPageData();
     }
+    this.isAuth = await this.dataservice.getUserAuthAsync();
+    let data = await this.dataservice.refreshPageData();
     if (data != null) {
       this.data = data.map(d => d);
     }
-    this.isAuth = await this.dataservice.getUserAuthAsync();
 
   }
+
+
+
+
 
   showData() {
     console.log(this.data);

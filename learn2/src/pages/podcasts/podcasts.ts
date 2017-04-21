@@ -7,6 +7,9 @@ import { ApiMedia } from '../../providers/media-service/api-media';
 import { AudioProvider } from 'ionic-audio';
 import { CoreFunction } from '../../providers/common-service';
 import { ImageTo64Service } from '../../pipes/index';
+import {WebWorkerService} from 'ng2-image-lazy-load';
+
+
 @Component({
     selector: 'podcasts',
     templateUrl: 'podcasts.html'
@@ -86,5 +89,8 @@ export class PodcastPage implements OnInit, OnChanges {
 
     onTrackFinished(track: any) {
         console.log('Track finished', track)
+    }
+    dosomething(event){
+        console.log(event);
     }
 }

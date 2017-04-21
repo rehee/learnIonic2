@@ -1,0 +1,13 @@
+<!--<button ion-item (click)="ChangeDisplay()"> <ion-icon name="{{page.icon}}" item-left> </ion-icon>display/hide </button>-->
+<button ion-item (click)="GoToPage(page)">
+    <ion-icon name="{{page.icon}}" item-left></ion-icon> 
+    {{page.text}}
+</button>
+
+<button *ngIf="display" ion-item (click)="TurnToPage(page)">
+    <ion-icon name="{{page.icon}}" item-left></ion-icon> 
+        {{page.text}} All
+</button>
+<button [@listItemState]="'in'" *ngFor="let item of Myteam" (click)="TurnToMyTeamPage(item)" ion-item >
+        {{item.name}}
+    </button>

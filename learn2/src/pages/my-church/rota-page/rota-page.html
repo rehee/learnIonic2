@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            {{PassModule.teamName}}<br>{{PassModule.rotaName}}
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-slides pager>
+        <ion-slide *ngFor="let item of RotaInfomation">
+            <rote-item [Rota]="item"></rote-item>
+        </ion-slide>
+    </ion-slides>
+
+</ion-content>

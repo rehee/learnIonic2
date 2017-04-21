@@ -1,0 +1,11 @@
+img-lazy{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    .loading{
+        visibility: hidden;
+    }
+    .sping_loading_finish{
+        display: none;
+    }
+}

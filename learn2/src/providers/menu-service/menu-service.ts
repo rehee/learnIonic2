@@ -1,6 +1,6 @@
 import {
     HomePage, AboutPage, ContactPage, MenuButton, LogoutComponent,
-    FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage, MyAvaliablePage, MyDetailPage
+    FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage, MyAvaliablePage, MyDetailPage, MapPage
 } from '../../pages/index';
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
@@ -23,6 +23,7 @@ export class MenuItems {
     private socialFeedPage: any = SocialFeedPage;
     private myAvaliablePage: any = MyAvaliablePage;
     private myDetailPage: any = MyDetailPage;
+    private mapPage: any = MapPage;
 
     private changeMenuDisplay(status: boolean) {
         try {
@@ -139,7 +140,7 @@ export class MenuItems {
             display: true
         },
         {
-            page: this.aboutPage,
+            page: this.mapPage,
             text: "Map",
             name: 'map',
             icon: 'navigate',

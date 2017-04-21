@@ -74,6 +74,18 @@
         <ion-option *ngFor="let item of Nationality.options" [value]="item.value">{{item.name}}</ion-option>
       </ion-select>
     </ion-item>
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button block>Cancel</button>
+          </ion-col>
+          <ion-col col-6>
+            <button ion-button block (click)="Save()">Save</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
   </ion-list>
 
 

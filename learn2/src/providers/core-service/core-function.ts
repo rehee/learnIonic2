@@ -7,7 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 import { Storage } from '@ionic/storage';
-
+import { Platform, LoadingController, Events, NavController } from 'ionic-angular';
 
 export class CoreFunction {
 
@@ -204,5 +204,21 @@ export class CoreFunction {
             return result;
         };
     }
+
+    static IsSamePageCurrentTargetFunction(nav: NavController) {
+    return (pageName: string) => {
+        try {
+            if (nav.getActive().component.name.toLowerCase() == pageName.toLowerCase()) {
+                return true;
+            }
+            console.log(nav.getActive().component.name.toLowerCase())
+            return false;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+
+    }
+}
 
 }

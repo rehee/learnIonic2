@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { Platform, LoadingController, Events } from 'ionic-angular';
+import { Component,ViewChild } from '@angular/core';
+import { Platform, LoadingController, Events,NavController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-import { DeviceService, CommonService, DataService, MenuItems, CoreFunction } from '../providers/common-service';
+import { DeviceService, CommonService, DataService, CoreFunction } from '../providers/common-service';
 import { Storage } from '@ionic/storage';
 // import { TabsPage } from '../pages/tabs/tabs';
-import { HomePage, LogoutComponent } from '../pages/index';
+import { HomePage, LogoutComponent,FootMenuPage } from '../pages/index';
 import { Device } from 'ionic-native';
 import { Push, PushToken } from '@ionic/cloud-angular'
 
@@ -14,9 +14,10 @@ import { Push, PushToken } from '@ionic/cloud-angular'
 })
 export class MyApp {
   rootPage = HomePage;
+  @ViewChild('content') nav: NavController
   load = this.loading.create({ content: 'Loading...' });
   sideMenus: any[] = [];
-
+  
   async openPage(page: any, newPage: boolean = false) {
     if (page == LogoutComponent) {
       let load = this.loading.create({ content: 'Logout now...' });
@@ -28,8 +29,8 @@ export class MyApp {
       this.rootPage = page;
     }
   }
-
-  constructor(private loading: LoadingController, platform: Platform, deviceService: DeviceService, public commonService: CommonService, storage: Storage, public dataService: DataService, public push: Push, private menus: MenuItems, private event: Events) {
+  // private menus: MenuItems
+  constructor(private loading: LoadingController, platform: Platform, deviceService: DeviceService, public commonService: CommonService, storage: Storage, public dataService: DataService, public push: Push, private event: Events) {
 
     this.load.present();
 
@@ -65,7 +66,7 @@ export class MyApp {
           ])(async () => {
             this.load.dismiss();
             this.event.publish('LoginMayChange', await this.dataService.getUserAuthAsync());
-            this.sideMenus = this.menus.MenuItems;
+            // this.sideMenus = this.menus.MenuItems;
           });
         }
       );
@@ -77,7 +78,7 @@ export class MyApp {
     await this.dataService.initData();
     this.load.dismiss();
     this.event.publish('LoginMayChange', await this.dataService.getUserAuthAsync());
-    this.sideMenus = this.menus.MenuItems;
+    // this.sideMenus = this.menus.MenuItems;
   }
 
 }

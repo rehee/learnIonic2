@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      My Church
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-list-header>
+      My Teams
+    </ion-list-header>
+    <ion-item *ngFor="let item of myTeam" (click)="TurnToMyTeamPage(item);">{{item.name}}
+      <ion-badge item-right>{{item.rota_events.length}}</ion-badge>
+    </ion-item>
+
+    <ion-list-header>
+      My Groups
+    </ion-list-header>
+    <ion-item *ngFor="let item of myGroups">{{item.name}}</ion-item>
+  </ion-list>
+</ion-content>

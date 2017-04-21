@@ -13,7 +13,8 @@ export enum IknowApiCall {
     GetGivingId = 6,
     GetMediaStreams = 7,
     GetMyHoliday = 8,
-    MyAccount=9
+    MyAccount=9,
+    Rota=10
 
 }
 export class AppConfig {
@@ -26,17 +27,21 @@ export class AppConfig {
         [IknowApiCall.GetGivingId]: "/finance/giving_ids",
         [IknowApiCall.GetMediaStreams]: "/mediastreams",
         [IknowApiCall.GetMyHoliday]:"/account/holidays",
-        [IknowApiCall.MyAccount]:"/account"
+        [IknowApiCall.MyAccount]:"/account",
+        [IknowApiCall.Rota]:"/teams"
     }
 
     static GetApiUrl(apiCall: IknowApiCall, baseUrl: string = "", additionalUrl = "") {
         return `${baseUrl}${AppConfig.Url[apiCall]}${additionalUrl}`;
     }
-
     static GetApiBaseUrl(baseUrl: string) {
         return (apiCall: IknowApiCall, additionalUrl: string = "") => {
             return AppConfig.GetApiUrl(apiCall, baseUrl, additionalUrl)
         }
+    }
+
+    static RotaAdditionalUrl(team_id:number=0,event_id:number=0){
+       return `/${team_id}/rotas/${event_id}`;
     }
 
 

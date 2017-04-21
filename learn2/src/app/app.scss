@@ -37,3 +37,10 @@
 .list-ios > .item-block:first-child {
     border:none;
 }
+
+.ion-page>.content>.scroll-content{
+    padding-bottom: 50px!important;
+}
+.item-date>span.button-inner{
+    flex-direction: column;
+}

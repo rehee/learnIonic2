@@ -16,7 +16,6 @@ export class CommonService {
       } else {
         console.log('no church files');
       }
-      
       return this.ThisChurch;
     } catch (e) {
       

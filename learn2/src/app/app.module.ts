@@ -6,24 +6,27 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-// import { TabsPage } from '../pages/tabs/tabs';
-import { FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage,MyAvaliablePage,AddHolidayComponent ,MyDetailPage} from '../pages/index';
+import { FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage, MyAvaliablePage, AddHolidayComponent, MyDetailPage, MapPage, FootMenuPage, MyChurchPage,
+   MyTeamPage,RotaPage,RoteItemComponent,NotificationPage } from '../pages/index';
 import { FeedItemComponent } from '../pages/social-feed/index';
 import { CalendarEventWeidge } from '../pages/calendar/weidges/index';
 import { LogoutComponent } from '../pages/index';
-import { CoreService, ApiService, CommonService, DeviceService, DataService, MenuItems, ApiMedia } from '../providers/common-service';
-
+import { ImageLazyomponent, FootMenuComponent, MenuItemComponent } from '../components/index';
+import { CoreService, ApiService, CommonService, DeviceService, DataService, FootMenuService, ApiMedia } from '../providers/common-service';
+import { MenuItems } from '../providers/menu-service/menu-service';
 import { IonicStorageModule } from '@ionic/storage';
 import { ScrollableTabs } from '../components/scroll-tab/scrollable-tabs'
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular'
 import { HomeBlockComponent, HomeLinkComponent, HomeVoteComponent, HomeSliderComponent, HomeLoginComponent, HomeRefreshComponent, HomeLoginPrompComponent } from '../pages/home/weidges/index';
 import { LogoutSpinComponent } from '../pages/logout/logout-spin/logout-spin'
-import { SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe,StringToTimePipe } from '../pipes/index'
+import { SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe } from '../pipes/index'
 import { CalendarModule } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EpisodeComponent } from '../pages/podcasts/index';
 import { IonicAudioModule } from 'ionic-audio';
+
+import { AgmCoreModule } from 'angular2-google-maps/core';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'b3dcf650',
@@ -56,14 +59,17 @@ const cloudSettings: CloudSettings = {
     ScrollableTabs,
     LogoutComponent, LogoutSpinComponent,
     FeaturedPage,
-    SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe,StringToTimePipe,
+    SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe,
     CalenderPage, CalendarEventWeidge,
     GivePage,
     PodcastPage, EpisodeComponent,
-    SocialFeedPage, FeedItemComponent,
-    MyAvaliablePage,AddHolidayComponent,
-    MyDetailPage
-
+    SocialFeedPage, FeedItemComponent, ImageLazyomponent,
+    MyAvaliablePage, AddHolidayComponent,
+    MyDetailPage,
+    MapPage,
+    FootMenuPage, FootMenuComponent, MenuItemComponent,
+    MyChurchPage, MyTeamPage,RotaPage,RoteItemComponent,
+    NotificationPage
   ],
   imports: [
     CommonModule, FormsModule,
@@ -72,7 +78,10 @@ const cloudSettings: CloudSettings = {
     IonicStorageModule.forRoot(),
     CloudModule.forRoot(cloudSettings),
     CalendarModule.forRoot(),
-    IonicAudioModule.forRoot()
+    IonicAudioModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyA5THjfwM4qdgplcilYPv_hV-idRSvBe5o'
+    })
 
   ],
   bootstrap: [IonicApp],
@@ -86,10 +95,13 @@ const cloudSettings: CloudSettings = {
     FeaturedPage,
     CalenderPage, CalendarEventWeidge,
     GivePage, PodcastPage, EpisodeComponent,
-    SocialFeedPage,MyAvaliablePage,AddHolidayComponent,
-    MyDetailPage
+    SocialFeedPage, MyAvaliablePage, AddHolidayComponent,
+    MyDetailPage,
+    MapPage, FootMenuPage,
+    MyChurchPage, MyTeamPage,RotaPage,
+    NotificationPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, ApiService, ApiMedia, CommonService, DeviceService, DataService, CoreService, MenuItems
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, FootMenuService, ApiService, ApiMedia, CommonService, DeviceService, DataService, CoreService
   ]
 })
 export class AppModule {

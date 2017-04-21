@@ -59,6 +59,15 @@ export class MyDetailPage implements OnInit {
         console.log(options);
 
     }
+
+    async Save(){
+        console.log(this.BirthDay);
+        var birthDayItems = this.BirthDay.split('-');
+        this.MyDetail.DOBDD=birthDayItems[2];
+        this.MyDetail.DOBMM=birthDayItems[1];
+        this.MyDetail.DOBYYYY=birthDayItems[0];
+        console.log(await this.dataService.PostMyDetail(this.MyDetail));
+    }
 }
 
 

@@ -127,8 +127,8 @@
                "dragger":true,
                "init":null,
                "params":null,
-               "ios":false,
-               "android":false
+               "ios":true,
+               "android":true
             },
             {
                "text":"My Details",

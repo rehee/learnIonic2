@@ -7,6 +7,8 @@ import { GiveModule, GivingFIrstSubmit, GivingSecondSubmit, GiveIknow } from '..
 import { Church } from '../common-service/church';
 import { CoreFunction } from '../core-service/core-function';
 import { AppConfig, IknowApiCall, HttpType } from '../../modules/index';
+import { MyNotificationType, MyNotificationItem } from '../../modules/module/index';
+import { DataExtend } from './data-extent';
 /*
   Generated class for the DataService provider.
 
@@ -28,7 +30,7 @@ export class DataService {
     )
   }
 
-  private async httpRequestAsync(){
+  private async httpRequestAsync() {
     let church: Church = await this.api.GetChurchPromise()
     return await CoreFunction.GetHttpResponseAsyncResult(
       this.api.http,
@@ -39,12 +41,12 @@ export class DataService {
       AppConfig.GetApiBaseUrl
     );
   }
-    
-  
 
-  private async httpRequestAsyc(){
+
+
+  private async httpRequestAsyc() {
     let response = await this.httpRequest();
-    
+
   }
 
   private async getContentPromise(isLogout: boolean = false) {
@@ -169,7 +171,8 @@ export class DataService {
   }
 
   async refreshPageData() {
-    return await this.getStoragePromise<any[]>('home');
+    var data = await this.getStoragePromise<any[]>('home');
+    return data;
   }
 
   async RefreshFeaturedDate() {
@@ -225,22 +228,39 @@ export class DataService {
   async RefresAppInformation() {
     return await this.getStoragePromise<any>('info');
   }
+  async RefreshMyNotification() {
+    var data = await this.getStoragePromise<any>("notifications");
+    if (data == null) {
+      return [];
+    }
+    return data.map(b => DataExtend.ConvertObjectToMyNotificationItem(b)).filter(c=>c!=null);
 
-  async RefreshMyHoliday(){
-    let httpRequest = await this.httpRequest();
-    return await httpRequest(HttpType.Get,IknowApiCall.GetMyHoliday);
   }
-  async AddRefreshMyHoliday(model:any){
+  async RefreshMyHoliday() {
     let httpRequest = await this.httpRequest();
-    return await httpRequest(HttpType.Post,IknowApiCall.GetMyHoliday,model);
+    return await httpRequest(HttpType.Get, IknowApiCall.GetMyHoliday);
   }
-  async DeleteRefreshMyHoliday(id:any){
+  async AddRefreshMyHoliday(model: any) {
     let httpRequest = await this.httpRequest();
-    return await httpRequest(HttpType.Delete,IknowApiCall.GetMyHoliday,null,`/${id}`);
+    return await httpRequest(HttpType.Post, IknowApiCall.GetMyHoliday, model);
+  }
+  async DeleteRefreshMyHoliday(id: any) {
+    let httpRequest = await this.httpRequest();
+    return await httpRequest(HttpType.Delete, IknowApiCall.GetMyHoliday, null, `/${id}`);
   }
 
-  async RefreshMyDetail(){
-    return await (await this.httpRequest())(HttpType.Get,IknowApiCall.MyAccount,null,"");
+  async RefreshMyChurch() {
+    return await this.getStoragePromise<any>('my');
+  }
+
+  async RefreshMyDetail() {
+    return await (await this.httpRequest())(HttpType.Get, IknowApiCall.MyAccount, null, "");
+  }
+  async PostMyDetail(model: any) {
+    return await (await this.httpRequest())(HttpType.Put, IknowApiCall.MyAccount, { data: model }, "");
+  }
+  async GetRote(addidionUrl: string) {
+    return await (await this.httpRequest())(HttpType.Get, IknowApiCall.Rota, null, addidionUrl);
   }
   private analysisHttpBack(input) {
     if (input == null) {
