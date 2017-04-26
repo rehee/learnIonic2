@@ -1,5 +1,6 @@
 http://stackoverflow.com/questions/41263123/selecting-time-in-prompt-alert-ionic-2
 modalControl
+Programming Languages and Lambda Calculi
 
 https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp
  ξ
@@ -48,3 +49,7 @@ http://stackoverflow.com/questions/42393324/ionic-2-animations-not-working-on-io
 
 full calendar
 https://fullcalendar.io/
+
+"https:\/\/iknowapi.divinepassport.com\/1\/2",
+
+http://192.168.1.39:8888/1/3"

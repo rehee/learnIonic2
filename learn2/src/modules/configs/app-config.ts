@@ -14,7 +14,8 @@ export enum IknowApiCall {
     GetMediaStreams = 7,
     GetMyHoliday = 8,
     MyAccount=9,
-    Rota=10
+    Rota=10,
+    NotificationToken=11
 
 }
 export class AppConfig {
@@ -28,7 +29,8 @@ export class AppConfig {
         [IknowApiCall.GetMediaStreams]: "/mediastreams",
         [IknowApiCall.GetMyHoliday]:"/account/holidays",
         [IknowApiCall.MyAccount]:"/account",
-        [IknowApiCall.Rota]:"/teams"
+        [IknowApiCall.Rota]:"/teams",
+        [IknowApiCall.NotificationToken]:"/app/notificationtoken"
     }
 
     static GetApiUrl(apiCall: IknowApiCall, baseUrl: string = "", additionalUrl = "") {

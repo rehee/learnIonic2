@@ -19,7 +19,13 @@ import { DataExtend } from './data-extent';
 export class DataService {
 
   constructor(public apiMedia: ApiMedia, public events: Events, public deviceService: DeviceService, public commonService: CommonService, public storage: Storage, public api: ApiService) {
-
+    events.subscribe("LoginMayChange", async (status) => {
+      if (deviceService.PushNotificationToken == null || deviceService.PushNotificationToken.trim() == "") {
+        return;
+      }
+      // console.log(`${deviceService.PushNotificationToken} ${await this.getStoragePromise<number>(AppKeyType.PplId.toString())}`);
+      await (await this.httpRequest())(HttpType.Post, IknowApiCall.NotificationToken, { ppl_id: await this.getStoragePromise<number>(AppKeyType.PplId.toString()),token: deviceService.PushNotificationToken}, "");
+    })
   }
   private async httpRequest() {
     let church: Church = await this.api.GetChurchPromise()
@@ -72,10 +78,15 @@ export class DataService {
 
   getStoragePromise<T>(key: string) {
     return new Promise<T>((resolve, reject) => {
-      this.storage.get(this.getStorageKey(key)).then(
-        data => resolve(data),
-        error => resolve(null)
-      );
+      this.storage.ready().then(() => {
+        this.storage.get(this.getStorageKey(key)).then(
+          data => resolve(data),
+          error => resolve(null)
+        );
+      }).catch(() => {
+        resolve(null);
+      });
+
     })
   }
 
@@ -84,6 +95,9 @@ export class DataService {
     auth = await this.getStoragePromise<boolean>(AppKeyType.IsAuth.toString());
     if (auth == null) {
       auth = false;
+    }
+    else {
+      this.events.publish('LoginMayChange', auth);
     }
     return auth;
   }
@@ -95,6 +109,7 @@ export class DataService {
       await this.fetchDataAndRefreshPageAsync();
     }
     this.refreshPageData();
+    let auth = await this.getUserAuthAsync();
   }
 
 
@@ -104,6 +119,7 @@ export class DataService {
     }
     await this.fetchDataAndRefreshPageAsync(isLogout);
     await this.refreshPageData();
+
   }
 
   private async  fetchDataAndRefreshPageAsync(isLogout: boolean = false) {
@@ -233,7 +249,7 @@ export class DataService {
     if (data == null) {
       return [];
     }
-    return data.map(b => DataExtend.ConvertObjectToMyNotificationItem(b)).filter(c=>c!=null);
+    return data.map(b => DataExtend.ConvertObjectToMyNotificationItem(b)).filter(c => c != null);
 
   }
   async RefreshMyHoliday() {
@@ -278,6 +294,7 @@ export class DataService {
       this.events.publish('LoginMayChange', data.auth.status);
       this.storage.set(this.getStorageKey(AppKeyType.ApiKey.toString()), data.auth.key);
       this.storage.set(this.getStorageKey(AppKeyType.IsAuth.toString()), data.auth.status);
+      this.storage.set(this.getStorageKey(AppKeyType.PplId.toString()), data.auth.ppl_id);
     }
     this.storage.set(this.getStorageKey(AppKeyType.LastUpdateTime.toString()), receiveDate.getTime());
     for (let key in data.data) {

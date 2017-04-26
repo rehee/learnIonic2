@@ -20,7 +20,7 @@ export class FootMenuComponent {
 
         console.log(1);
     }
-    checkFunction = CoreFunction.IsSamePageCurrentTargetFunction(this.nav);
+    checkFunction:(string)=>boolean;
 
     Pages: { [key: string]: any } = {
         ["HomePage"]: HomePage,

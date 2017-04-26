@@ -3,6 +3,8 @@ import { DeviceModule } from './device';
 @Injectable()
 export class DeviceService {
   ThisDevice: DeviceModule = new DeviceModule();
+  PushNotificationToken:string="";
+  PplId:number=0;
 
   SetDeviceModule(avaliable: boolean, platform: string, version: string, uuid: string, cordova: string, model: string, manufacturer: string, isVirtual: boolean, serial: string): DeviceModule {
     this.ThisDevice.avaliable = avaliable;

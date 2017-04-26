@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, Alert, LoadingController } from 'ionic-angular';
 import { DataService } from '../../../../providers/common-service';
+
 @Component({
     selector: 'home-login-promp',
     templateUrl: 'login-promp-weidges.html'
 })
 export class HomeLoginPrompComponent implements OnInit {
+    constructor(private alertCtrl: AlertController, private loading: LoadingController, private dataService: DataService) { }
 
+    ngOnInit() {
+
+    }
     register() {
         let prompt = this.alertCtrl.create({
             title: 'Registe',
@@ -23,7 +28,7 @@ export class HomeLoginPrompComponent implements OnInit {
                 {
                     name: 'birth',
                     placeholder: 'dd-mm-yyyy',
-                    type:"date"
+                    type: "date"
                 }
             ],
             buttons: [
@@ -37,13 +42,13 @@ export class HomeLoginPrompComponent implements OnInit {
                     text: 'Save',
                     handler: data => {
                         let birthday = data.birth;
-                        let birthdayDay:string,birthdayMonth:string,birthdayYear:string
-                        if(birthday==0){
-                            birthdayDay="00";
-                            birthdayMonth="00";
-                            birthdayYear="0000";
+                        let birthdayDay: string, birthdayMonth: string, birthdayYear: string
+                        if (birthday == 0) {
+                            birthdayDay = "00";
+                            birthdayMonth = "00";
+                            birthdayYear = "0000";
                         }
-                        this.dataService.PostRegister(data.name,data.email,birthdayDay,birthdayMonth,birthdayYear);
+                        this.dataService.PostRegister(data.name, data.email, birthdayDay, birthdayMonth, birthdayYear);
                     }
                 }
             ]
@@ -96,8 +101,8 @@ export class HomeLoginPrompComponent implements OnInit {
             });
             alert.present();
         }
+        
         load.dismiss();
-
     }
     loginApp() {
         this.createLoginPrompt();
@@ -105,9 +110,5 @@ export class HomeLoginPrompComponent implements OnInit {
     }
 
 
-    constructor(private alertCtrl: AlertController, private loading: LoadingController, private dataService: DataService) { }
 
-    ngOnInit() {
-
-    }
 }

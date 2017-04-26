@@ -38,5 +38,6 @@ export class CommonService {
 export enum AppKeyType {
   ApiKey = 0,
   LastUpdateTime = 1,
-  IsAuth = 2
+  IsAuth = 2,
+  PplId=3
 }
