@@ -4,11 +4,12 @@
       episode
     </ion-title>
   </ion-navbar>
+  <audio-control [Tracks]="myTracks"></audio-control>
 </ion-header>
 
 <ion-content padding>
 
-<ion-list>
+<ion-list [class.showTrack]="myTracks!=null&&myTracks.length>0">
   <ion-item>
     <ion-avatar item-left>
       <img [src]="MusicDetail?.data?.series?.series_image">
@@ -21,6 +22,4 @@
     {{item.episode_title}}
   </ion-item>
 </ion-list>
-
-
 </ion-content>

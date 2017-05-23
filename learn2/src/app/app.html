@@ -5,5 +5,16 @@
     </ion-list>
   </ion-content>
 </ion-menu>-->
+
+
+<ion-header>
+  <header-notice>
+    
+  </header-notice>
+</ion-header>
+<ion-content [class.header-display]="IsDisplayHeader">
 <ion-nav #content [root]="rootPage"></ion-nav>
+</ion-content>
+
+
 <foot-menu-component [nav]="nav"></foot-menu-component>

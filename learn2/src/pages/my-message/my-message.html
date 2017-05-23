@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      My Messages
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of messages">
+      <ion-item (click)="ReadNotification(item)">
+        <ion-avatar class="messageList" item-left>
+          <span *ngIf="item.readTime==null">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+          </span>
+          <span *ngIf="item.readTime!=null">
+            <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+          </span>
+        </ion-avatar>
+        <h2>{{item.title}}</h2>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="RemoveNotification(item)">
+        Remove
+      </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

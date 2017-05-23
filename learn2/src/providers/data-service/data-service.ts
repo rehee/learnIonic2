@@ -3,12 +3,15 @@ import { Storage } from '@ionic/storage';
 import { Events } from 'ionic-angular';
 import { DeviceService, CommonService, AppKeyType, ApiService } from '../common-service';
 import { ApiMedia } from '../media-service/api-media';
-import { GiveModule, GivingFIrstSubmit, GivingSecondSubmit, GiveIknow } from '../../modules/index';
+import { GiveModule, GivingFIrstSubmit, GivingSecondSubmit, GiveIknow, PushNotification } from '../../modules/index';
+import { MusicStream, MusicSerie, MusicStreamImage, Episode } from '../../modules/index';
 import { Church } from '../common-service/church';
 import { CoreFunction } from '../core-service/core-function';
 import { AppConfig, IknowApiCall, HttpType } from '../../modules/index';
-import { MyNotificationType, MyNotificationItem } from '../../modules/module/index';
+import { MyNotificationType, MyNotificationItem, PushNotificationRecord } from '../../modules/module/index';
 import { DataExtend } from './data-extent';
+import { Badge } from '@ionic-native/badge';
+import { DateExtent } from '../../pipes/index';
 /*
   Generated class for the DataService provider.
 
@@ -18,13 +21,15 @@ import { DataExtend } from './data-extent';
 @Injectable()
 export class DataService {
 
-  constructor(public apiMedia: ApiMedia, public events: Events, public deviceService: DeviceService, public commonService: CommonService, public storage: Storage, public api: ApiService) {
+  constructor(public apiMedia: ApiMedia, public events: Events,
+    public deviceService: DeviceService, public commonService: CommonService,
+    public storage: Storage, public api: ApiService, private badge: Badge) {
     events.subscribe("LoginMayChange", async (status) => {
       if (deviceService.PushNotificationToken == null || deviceService.PushNotificationToken.trim() == "") {
         return;
       }
       // console.log(`${deviceService.PushNotificationToken} ${await this.getStoragePromise<number>(AppKeyType.PplId.toString())}`);
-      await (await this.httpRequest())(HttpType.Post, IknowApiCall.NotificationToken, { ppl_id: await this.getStoragePromise<number>(AppKeyType.PplId.toString()),token: deviceService.PushNotificationToken}, "");
+      await (await this.httpRequest())(HttpType.Post, IknowApiCall.NotificationToken, { ppl_id: await this.getStoragePromise<number>(AppKeyType.PplId.toString()), token: deviceService.PushNotificationToken }, "");
     })
   }
   private async httpRequest() {
@@ -83,7 +88,7 @@ export class DataService {
           data => resolve(data),
           error => resolve(null)
         );
-      }).catch(() => {
+      }).catch((e) => {
         resolve(null);
       });
 
@@ -292,9 +297,13 @@ export class DataService {
     let receiveDate = new Date();
     if (typeof (data.auth) != 'undefined') {
       this.events.publish('LoginMayChange', data.auth.status);
+      this.events.publish('LoginChange', data.auth.status);
       this.storage.set(this.getStorageKey(AppKeyType.ApiKey.toString()), data.auth.key);
       this.storage.set(this.getStorageKey(AppKeyType.IsAuth.toString()), data.auth.status);
       this.storage.set(this.getStorageKey(AppKeyType.PplId.toString()), data.auth.ppl_id);
+      if (data.auth == false) {
+        this.storage.set(this.getStorageKey(AppKeyType.PushNotificatins.toString()), null);
+      }
     }
     this.storage.set(this.getStorageKey(AppKeyType.LastUpdateTime.toString()), receiveDate.getTime());
     for (let key in data.data) {
@@ -305,4 +314,150 @@ export class DataService {
     this.refreshPageData();
   }
 
+
+  async AddPushNotification(title: string, message: string) {
+    let lists: PushNotification[] = await this.getStoragePromise<any>(AppKeyType.PushNotificatins.toString());
+    if (lists == null) {
+      lists = [];
+    }
+    let input: PushNotification = new PushNotification();
+    input.NotificationTitle = title;
+    input.NotificationMessage = message;
+    lists.push(input);
+    this.storage.set(this.getStorageKey(AppKeyType.PushNotificatins.toString()), lists);
+  }
+
+  async GetAllPushNotifications() {
+    return await this.getStoragePromise<any>(AppKeyType.PushNotificatins.toString());
+  }
+  async ClearPushNotification() {
+    await this.storage.remove(this.getStorageKey(AppKeyType.PushNotificatins.toString()));
+  }
+
+  ReNewBadge(index: number = 0) {
+    this.GetAllPushNotifications().then((list) => {
+      let badge: number = 0;
+      if (list == null) {
+
+      } else {
+        badge = list.length;
+      }
+      this.badge.set(badge + index);
+    })
+  }
+
+  async FetchUserNotification(): Promise<PushNotificationRecord[]> {
+    let list = await (await this.httpRequest())(HttpType.Get, IknowApiCall.UserNotificationToken, null, "");
+    console.log(list);
+    console.log(list == []);
+    if (list == null) {
+      return [];
+    }
+    else {
+      console.log(1);
+      this.storage.set(this.getStorageKey(AppKeyType.PushNotificatins.toString()), list);
+      return list;
+    }
+  }
+
+  async RefreshNotification(): Promise<PushNotificationRecord[]> {
+    let result: any = await this.getStoragePromise(AppKeyType.PushNotificatins.toString());
+    if (result == null || result.length == null || result.length == 0) {
+      return [];
+    }
+    return result.map(b => {
+      let item = new PushNotificationRecord();
+      item.notificationId = b.notificationId;
+      item.title = b.title;
+      item.text = b.text;
+      item.content = b.content
+      item.sendTime = DateExtent.ConvertStringToDate(b.sendTime);
+      if (b.readTime != null) {
+        item.readTime = DateExtent.ConvertStringToDate(b.readTime);
+      } else {
+        item.readTime = null;
+      };
+      return item;
+    });
+  }
+
+  async ReadNotification(id: number = -1) {
+    return await (await this.httpRequest())(HttpType.Post, IknowApiCall.ReadNotification, { id: id }, "");
+  }
+  async RemoveNotification(id: number = -1) {
+    return await (await this.httpRequest())(HttpType.Post, IknowApiCall.RemoveNotification, { id: id }, "");
+  }
+  async GetMediaStream(): Promise<MusicStream[]> {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.MediaStreamsNoChildren, null, "");
+    if (result == null || result.status != true) {
+      return null;
+    }
+    return result.data.stream.map(b => {
+      let stream: MusicStream = new MusicStream();
+      for (let key in b) {
+        stream[key] = b[key];
+      }
+      return stream;
+    });
+  }
+  async GetMediaStreamById(id: number) {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.MediaStreamsNoChildren, null, `/${id}`);
+    if (result == null || result.status != true) {
+      return null;
+    }
+    let stream: MusicStream = new MusicStream();
+    for (let key in result.data.stream) {
+      if (key != "series") {
+        stream[key] = result.data.stream[key];
+      } else {
+        let series = [];
+        for (let seriesKey in result.data.stream.series) {
+          series.push(result.data.stream.series[seriesKey]);
+        }
+        stream.series = series.map(b => {
+          let musicSerie: MusicSerie = new MusicSerie();
+          for (let mKey in b) {
+            if (mKey == "image") {
+              musicSerie.image = new MusicStreamImage();
+              musicSerie.image.b64 = b.image.b64;
+              musicSerie.image.sha1 = b.image.sha1;
+            } else {
+              musicSerie[mKey] = b[mKey];
+            }
+          }
+          return musicSerie;
+        })
+      }
+    }
+    return stream;
+  }
+  async GetMediaStreamByIdEpsoId(id: number, epsoId: number) {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.MediaStreamsNoChildren, null, `/${id}/${epsoId}`);
+    if (result == null || result.status != true) {
+      return null;
+    }
+    let musicSerie: MusicSerie = new MusicSerie();
+    for (let mKey in result.data.series) {
+      if (mKey == "image") {
+        musicSerie.image = new MusicStreamImage();
+        musicSerie.image.b64 = result.data.series.image.b64;
+        musicSerie.image.sha1 = result.data.series.image.sha1;
+      }
+      else if (mKey == "episodes") {
+        musicSerie.episodes = result.data.series.episodes.map(b => {
+          let episode: Episode = new Episode();
+          for (let eKey in b) {
+            episode[eKey] = b[eKey];
+          }
+          return episode;
+        });
+      }
+      else {
+        musicSerie[mKey] = result.data.series[mKey];
+      }
+    }
+    console.log(musicSerie);
+    return musicSerie;
+  }
+  public MusicTrack: any[] = [];
 }

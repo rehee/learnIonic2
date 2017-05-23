@@ -2,6 +2,9 @@ import {
     HomePage, AboutPage, ContactPage, MenuButton, LogoutComponent,
     FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage, MyAvaliablePage, MyDetailPage, MapPage, MyChurchPage
 } from '../../pages/index';
+import {
+    PodcastHolderPage
+} from '../../pages/podcasts/podcast-holder/podcast-holder';
 // import{
 //     NotificationPage
 // }from '../../pages/index2';
@@ -25,7 +28,7 @@ export class MenuList {
     private static featuredPage: any = FeaturedPage;
     private static calenderPage: any = CalenderPage;
     private static givePage: any = GivePage;
-    private static podcastPage: any = PodcastPage;
+    private static podcastPage: any = PodcastHolderPage;
     private static socialFeedPage: any = SocialFeedPage;
     private static myAvaliablePage: any = MyAvaliablePage;
     private static myDetailPage: any = MyDetailPage;

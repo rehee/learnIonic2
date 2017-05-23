@@ -53,3 +53,31 @@ https://fullcalendar.io/
 "https:\/\/iknowapi.divinepassport.com\/1\/2",
 
 http://192.168.1.39:8888/1/3"
+
+ionic2 calendar
+https://twinssbc.github.io/Ionic2-Calendar/
+
+
+iknow.ios.v.2.develope
+
+https://github.com/twinssbc/Ionic2-Calendar
+
+swipe tabs
+https://github.com/newsof1111/ionic2-swipedTab-OpenProject
+
+
+react native with typescript
+https://medium.com/@rintoj/react-native-with-typescript-40355a90a5d7
+
+cordova back audio
+https://stackoverflow.com/questions/29145888/cordova-ios-how-to-play-audio-file-when-app-is-running-in-background
+
+
+First,DO those things that I wrote in this question. Then import AVFoundation into your AppDelegate.m #import <AVFoundation/AVFoundation.h>
+
+Then add the following to application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+
+AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+BOOL ok;
+NSError *setCategoryError = nil;
+ok = [audioSession setCategory:AVAudioSessionCategoryPlayback error:&setCategoryError];

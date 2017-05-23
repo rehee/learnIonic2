@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Provider } from '@angular/core';
-import { NavController, Events } from 'ionic-angular';
+import { NavController, Events, NavParams, LoadingController } from 'ionic-angular';
 import { DataService } from '../../providers/common-service';
 import { MusicStream, MusicSerieEpisodeResponse, MusicSerie, Episode, Track } from '../../modules/index';
 import { EpisodeComponent } from './index';
@@ -7,34 +7,37 @@ import { ApiMedia } from '../../providers/media-service/api-media';
 import { AudioProvider } from 'ionic-audio';
 import { CoreFunction } from '../../providers/common-service';
 import { ImageTo64Service } from '../../pipes/index';
-import {WebWorkerService} from 'ng2-image-lazy-load';
+import { WebWorkerService } from 'ng2-image-lazy-load';
 
 
 @Component({
     selector: 'podcasts',
     templateUrl: 'podcasts.html'
 })
-export class PodcastPage implements OnInit, OnChanges {
-    constructor(private apiMedia: ApiMedia, private dataService: DataService, private nav: NavController, public audioProvider: AudioProvider, private event: Events) {
+export class PodcastPage {
+    constructor(private apiMedia: ApiMedia, private dataService: DataService, private nav: NavController, public audioProvider: AudioProvider, private event: Events, private parms: NavParams, private loading: LoadingController) {
         event.subscribe('EpisodeSelected', (item: Episode) => this.episodeSelected(item))
+        this.seasonId = parms.data;
     }
-
+    load = this.loading.create({ content: 'Loading...' });
     ngAfterContentInit() {
         // get all tracks managed by AudioProvider so we can control playback via the API
         this.allTracks = this.audioProvider.tracks;
     }
-    async ngOnInit() {
-        this.refreshStream();
-    }
-    myTracks: any[] = [];
+    seasonId: number = 0;
+    myTracks: any[];
     allTracks: any[] = [];
     convertBolb: any = CoreFunction.ConvertUrlToStorageBolb(ImageTo64Service.GetImageDataPromise);
-    ngOnChanges() {
 
+
+    ionViewWillEnter() {
+        this.myTracks = this.dataService.MusicTrack;
+        console.log(this.myTracks);
     }
+    
     private async episodeSelected(item: Episode) {
+
         var track: Track = this.apiMedia.ConvertToTrack(item);
-        let c = await this.convertBolb('church/t.mp3');
         if (this.audioProvider.tracks.length <= 0) {
             // this.myTracks=track;
             let newTrack = this.audioProvider.create(track);
@@ -45,32 +48,29 @@ export class PodcastPage implements OnInit, OnChanges {
             let newTrack = this.audioProvider.create(track);
         }
 
-        this.myTracks = this.audioProvider.tracks
+        this.dataService.MusicTrack = this.audioProvider.tracks;
+        this.myTracks = this.dataService.MusicTrack;
     }
 
     MusicStreams: MusicStream[] = [];
     ThisSerial: MusicSerie[] = [];
+
     async refreshStream() {
-        let streams: Object = await this.dataService.RefreshMediastreams()
-        let streamList: MusicStream[] = [];
-        let thisSerial: MusicSerie[] = [];
-        for (let item in streams) {
-            if (streams.hasOwnProperty(item)) {
-                streamList.push(streams[item]);
-
+        this.load.present();
+        let result: MusicStream = await this.dataService.GetMediaStreamById(this.seasonId);
+        let series = result.series.sort((a, b) => {
+            let firstDate = new Date(a.latest_episode_date).getTime();
+            let lastDate = new Date(b.latest_episode_date).getTime();
+            if (isNaN(firstDate)) {
+                firstDate = 0;
             }
-        }
-        if (streamList.length > 0) {
-            this.MusicStreams = streamList;
-            for (let item of streamList) {
-                for (let s of item.series) {
-                    thisSerial.push(s);
-                }
+            if (isNaN(lastDate)) {
+                lastDate = 0;
             }
-
-            this.ThisSerial = thisSerial;
-        }
-
+            return -(firstDate - lastDate);
+        })
+        this.load.dismiss();
+        this.ThisSerial = series;
     }
 
     FindEpisode(item: MusicSerie) {
@@ -80,17 +80,32 @@ export class PodcastPage implements OnInit, OnChanges {
     playSelectedTrack() {
         // use AudioProvider to control selected track 
         this.audioProvider.play(0);
+
     }
 
     pauseSelectedTrack() {
         // use AudioProvider to control selected track 
         this.audioProvider.pause(0);
+        console.log('pause');
     }
+    async test(track: any) {
+        for (let i = 0; i < 3; i++) {
+            await CoreFunction.Delay(1000);
+            //console.log(track);
+            this.event.publish("musicPlayChange", track.isPlaying);
+            console.log(track.isPlaying);
+        }
 
+    }
     onTrackFinished(track: any) {
+        this.event.publish("musicPlayChange", false);
         console.log('Track finished', track)
     }
-    dosomething(event){
+    dosomething(event) {
         console.log(event);
+    }
+
+    async ionViewDidLoad() {
+        await this.refreshStream();
     }
 }

@@ -14,6 +14,12 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.header-display{
+    margin-top: 56px;
+}
+.showTrack{
+        margin-top: 90px;
+    }
 .txt-a-left{
     text-align: left;
 }
@@ -40,6 +46,10 @@
 
 .ion-page>.content>.scroll-content{
     padding-bottom: 50px!important;
+}
+
+.header-display .ion-page>.content>.scroll-content{
+    padding-bottom: 100px!important;
 }
 .item-date>span.button-inner{
     flex-direction: column;

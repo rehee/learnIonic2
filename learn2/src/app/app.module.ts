@@ -6,12 +6,16 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import { FeaturedPage, CalenderPage, GivePage, PodcastPage, SocialFeedPage, MyAvaliablePage, AddHolidayComponent, MyDetailPage, MapPage, FootMenuPage, MyChurchPage,
-   MyTeamPage,RotaPage,RoteItemComponent,NotificationPage } from '../pages/index';
+import {
+  FeaturedPage, CalenderPage, GivePage,
+  PodcastPage,
+  SocialFeedPage, MyAvaliablePage, AddHolidayComponent, MyDetailPage, MapPage, FootMenuPage, MyChurchPage,
+  MyTeamPage, RotaPage, RoteItemComponent, NotificationPage, CalendarNativePage, MyMessagePage, ReadMessagePage, NestNavPage, HomeTabs
+} from '../pages/index';
 import { FeedItemComponent } from '../pages/social-feed/index';
 import { CalendarEventWeidge } from '../pages/calendar/weidges/index';
 import { LogoutComponent } from '../pages/index';
-import { ImageLazyomponent, FootMenuComponent, MenuItemComponent } from '../components/index';
+import { ImageLazyomponent, FootMenuComponent, MenuItemComponent,HeaderNoticeComponent } from '../components/index';
 import { CoreService, ApiService, CommonService, DeviceService, DataService, FootMenuService, ApiMedia } from '../providers/common-service';
 import { MenuItems } from '../providers/menu-service/menu-service';
 import { IonicStorageModule } from '@ionic/storage';
@@ -23,10 +27,11 @@ import { LogoutSpinComponent } from '../pages/logout/logout-spin/logout-spin'
 import { SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe } from '../pipes/index'
 import { CalendarModule } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { EpisodeComponent } from '../pages/podcasts/index';
+import { EpisodeComponent, PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage,PodcastTrackPage,AudioControlComponent } from '../pages/podcasts/index';
 import { IonicAudioModule } from 'ionic-audio';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { Badge } from '@ionic-native/badge';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'b3dcf650',
@@ -45,6 +50,7 @@ const cloudSettings: CloudSettings = {
   }
 };
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -55,21 +61,23 @@ const cloudSettings: CloudSettings = {
     HomeLinkComponent,
     HomeVoteComponent,
     HomeSliderComponent,
-    HomeLoginComponent, HomeRefreshComponent, HomeLoginPrompComponent,
+    HomeLoginComponent, HomeRefreshComponent, HomeLoginPrompComponent,HeaderNoticeComponent,
     ScrollableTabs,
     LogoutComponent, LogoutSpinComponent,
     FeaturedPage,
     SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe,
     CalenderPage, CalendarEventWeidge,
     GivePage,
-    PodcastPage, EpisodeComponent,
+    PodcastPage, EpisodeComponent,PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage,PodcastTrackPage,AudioControlComponent,
     SocialFeedPage, FeedItemComponent, ImageLazyomponent,
     MyAvaliablePage, AddHolidayComponent,
     MyDetailPage,
     MapPage,
     FootMenuPage, FootMenuComponent, MenuItemComponent,
-    MyChurchPage, MyTeamPage,RotaPage,RoteItemComponent,
-    NotificationPage
+    MyChurchPage, MyTeamPage, RotaPage, RoteItemComponent,
+    NotificationPage, CalendarNativePage,
+    MyMessagePage, ReadMessagePage,
+    NestNavPage, HomeTabs
   ],
   imports: [
     CommonModule, FormsModule,
@@ -94,14 +102,16 @@ const cloudSettings: CloudSettings = {
     LogoutComponent, LogoutSpinComponent,
     FeaturedPage,
     CalenderPage, CalendarEventWeidge,
-    GivePage, PodcastPage, EpisodeComponent,
+    GivePage, PodcastPage, EpisodeComponent,PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage,PodcastTrackPage,
     SocialFeedPage, MyAvaliablePage, AddHolidayComponent,
     MyDetailPage,
     MapPage, FootMenuPage,
-    MyChurchPage, MyTeamPage,RotaPage,
-    NotificationPage
+    MyChurchPage, MyTeamPage, RotaPage,
+    NotificationPage, CalendarNativePage,
+    MyMessagePage, ReadMessagePage,
+    NestNavPage, HomeTabs
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, FootMenuService, ApiService, ApiMedia, CommonService, DeviceService, DataService, CoreService
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, FootMenuService, ApiService, ApiMedia, CommonService, DeviceService, DataService, CoreService, Badge
   ]
 })
 export class AppModule {
