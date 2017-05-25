@@ -15,7 +15,7 @@ import {
 import { FeedItemComponent } from '../pages/social-feed/index';
 import { CalendarEventWeidge } from '../pages/calendar/weidges/index';
 import { LogoutComponent } from '../pages/index';
-import { ImageLazyomponent, FootMenuComponent, MenuItemComponent,HeaderNoticeComponent } from '../components/index';
+import { ImageLazyomponent, FootMenuComponent, MenuItemComponent,HeaderNoticeComponent,PageHeaderComponent } from '../components/index';
 import { CoreService, ApiService, CommonService, DeviceService, DataService, FootMenuService, ApiMedia } from '../providers/common-service';
 import { MenuItems } from '../providers/menu-service/menu-service';
 import { IonicStorageModule } from '@ionic/storage';
@@ -27,7 +27,7 @@ import { LogoutSpinComponent } from '../pages/logout/logout-spin/logout-spin'
 import { SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe } from '../pipes/index'
 import { CalendarModule } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { EpisodeComponent, PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage,PodcastTrackPage,AudioControlComponent } from '../pages/podcasts/index';
+import { EpisodeComponent, PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage,PodcastTrackPage,AudioControlComponent,AudioControlSimpleComponent } from '../pages/podcasts/index';
 import { IonicAudioModule } from 'ionic-audio';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
@@ -61,14 +61,14 @@ const cloudSettings: CloudSettings = {
     HomeLinkComponent,
     HomeVoteComponent,
     HomeSliderComponent,
-    HomeLoginComponent, HomeRefreshComponent, HomeLoginPrompComponent,HeaderNoticeComponent,
+    HomeLoginComponent, HomeRefreshComponent, HomeLoginPrompComponent,HeaderNoticeComponent,PageHeaderComponent,
     ScrollableTabs,
     LogoutComponent, LogoutSpinComponent,
     FeaturedPage,
     SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe,
     CalenderPage, CalendarEventWeidge,
     GivePage,
-    PodcastPage, EpisodeComponent,PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage,PodcastTrackPage,AudioControlComponent,
+    PodcastPage, EpisodeComponent,PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage,PodcastTrackPage,AudioControlComponent,AudioControlSimpleComponent,
     SocialFeedPage, FeedItemComponent, ImageLazyomponent,
     MyAvaliablePage, AddHolidayComponent,
     MyDetailPage,
