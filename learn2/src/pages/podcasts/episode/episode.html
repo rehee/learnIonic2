@@ -1,26 +1,36 @@
 <ion-header>
+  <page-header></page-header>
   <ion-navbar>
     <ion-title>
-      episode
+      {{MusicDetail?.data?.series?.series_title}}
     </ion-title>
-    <page-header></page-header>
   </ion-navbar>
-  <audio-control [Tracks]="myTracks"></audio-control>
 </ion-header>
 
 <ion-content padding>
 
-<ion-list [class.showTrack]="myTracks!=null&&myTracks.length>0">
-  <ion-item>
-    <ion-avatar item-left>
-      <img [src]="MusicDetail?.data?.series?.series_image">
-    </ion-avatar>
-    <h2>{{MusicDetail?.data?.series?.series_title}}</h2>
-    <p>{{MusicDetail?.data?.series?.count}} Episodes</p>
-    <p><button (click)="Close()" >close</button></p>
-  </ion-item>
-  <ion-item *ngFor="let item of MusicDetail?.data?.series?.episodes" (click)="SelectMusic(item)">
-    {{item.episode_title}}
-  </ion-item>
-</ion-list>
+  <ion-card>
+
+    <ion-card-header>
+      <img style="width: 75%;margin: 0 auto;" [src]="MusicDetail?.data?.series?.series_image">
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let item of MusicDetail?.data?.series?.episodes">
+          <h2>{{item.episode_title}}</h2>
+          <p>{{item.episode_subtitle}}</p>
+          <p>{{item.episode_date|stringToTime|date:"dd/MM/yyyy"}}</p>
+          <button ion-button clear icon-left color="danger" (click)="SelectMusic(item)" style="padding-left: 0px;" >
+            <ion-icon name='musical-notes' is-active="false"></ion-icon>
+            Listen
+          </button>
+
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+  </ion-card>
+
+
 </ion-content>

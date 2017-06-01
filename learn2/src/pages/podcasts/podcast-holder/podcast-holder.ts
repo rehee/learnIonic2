@@ -10,7 +10,7 @@ import { PodcastPage } from '../podcasts';
 export class PodcastHolderPage {
     constructor(private dataservice: DataService) {
         dataservice.GetMediaStream().then(b => {
-            if (b.length > 1) {
+            if (b.length > 1 || b.length == 0) {
                 this.nav.setRoot(PodcastStreamPage, b);
             }
             else if (b.length == 1) {

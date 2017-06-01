@@ -1,34 +1,32 @@
 <ion-header>
+  <page-header></page-header>
   <ion-navbar>
     <ion-title>
-      Podcasts
+      {{Title}}
     </ion-title>
-    <page-header></page-header>
   </ion-navbar>
-  <audio-control [Tracks]="myTracks"></audio-control>
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-
-  <!--<ion-grid>
-    <ion-row>
-      <ion-col col-4 *ngFor="let item of ThisSerial">
-        <img-lazy [src]="item.series_image" (click)="FindEpisode(item);"></img-lazy>
-      </ion-col>
-
-    </ion-row>
-
-  </ion-grid>-->
-
-  <ion-list [class.showTrack]="myTracks!=null&&myTracks.length>0">
-    <ion-item *ngFor="let item of ThisSerial" (click)="FindEpisode(item)">
-      <ion-avatar item-left>
+  <ion-list>
+    <button ion-item *ngFor="let item of ThisSerial" (click)="FindEpisode(item)">
+      <ion-thumbnail item-left>
         <img-lazy [src]="item.series_image"></img-lazy>
-      </ion-avatar>
-      <h2>{{item.series_title}} {{item.count}}</h2>
-      <p *ngIf="item.latest_episode_date!=null">{{item.latest_episode_date|stringToTime|date:"dd/MM/yyyy"}}</p>
-    </ion-item>
+      </ion-thumbnail>
+      <h2>{{item.series_title}} </h2>
+      <p>
+        {{item.series_desc}}
+      </p>
+      <p *ngIf="item.latest_episode_date!=null">{{item.latest_episode_date|stringToTime|date:"dd/MM/yyyy"}} ({{item.count}} episodes)</p>
+    </button>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingText="Loading more data...">>
 
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

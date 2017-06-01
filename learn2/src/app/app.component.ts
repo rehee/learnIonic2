@@ -37,7 +37,7 @@ export class MyApp {
     storage: Storage, public dataService: DataService, public push: Push,
 
     private event: Events, private badge: Badge) {
-
+    
     this.load.present();
     this.event.subscribe('LoginChange', async (b) => {
       await this.RenewNotificationBadge();
@@ -85,7 +85,7 @@ export class MyApp {
       }
       // this.dataService.ReNewBadge();
 
-
+      StatusBar.overlaysWebView(false);
       StatusBar.styleDefault();
       Splashscreen.hide();
 
@@ -106,12 +106,13 @@ export class MyApp {
             // this.event.publish('LoginMayChange', await this.dataService.getUserAuthAsync());
             // this.sideMenus = this.menus.MenuItems;
           });
+          this.dataService.FetchAllPodcastInBack();
         }
       );
     });
 
-    event.subscribe('musicPlayChange',(isDisplay:boolean)=>{
-      this.IsDisplayHeader=isDisplay;
+    event.subscribe('musicPlayChange', (isDisplay: boolean) => {
+      this.IsDisplayHeader = isDisplay;
     })
   }
 
@@ -136,7 +137,7 @@ export class MyApp {
   }
 
   IsDisplayHeader: boolean = false;
-  
+
 
 
 }

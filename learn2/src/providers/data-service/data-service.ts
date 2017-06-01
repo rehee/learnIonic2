@@ -53,6 +53,16 @@ export class DataService {
     );
   }
 
+   private async httpRequestBlank() {
+    let church: Church = await this.api.GetChurchPromise()
+    return CoreFunction.GetHttpResponseAsync(
+      CoreFunction.GetHttpPromise,
+      CoreFunction.GetHttpObserveAsync(
+        this.api.http, CoreFunction.GetIknowOption(
+          await this.getStoragePromise<string>(AppKeyType.ApiKey.toString()))),
+      AppConfig.GetApiBaseUrl(AppConfig.GetBlankBaseUrl())
+    )
+  }
 
 
   private async httpRequestAsyc() {
@@ -387,21 +397,66 @@ export class DataService {
   async RemoveNotification(id: number = -1) {
     return await (await this.httpRequest())(HttpType.Post, IknowApiCall.RemoveNotification, { id: id }, "");
   }
-  async GetMediaStream(): Promise<MusicStream[]> {
+
+
+  async FetchAllPodcastInBack() {
+    let streams: MusicStream[] = await this.GetMediaStream();
+    if (streams == null) {
+      return [];
+    }
+    streams.forEach(
+      async (b) => {
+        let stream = await this.FetchStreamByIdInBack(b.stream_id);
+      }
+    );
+  }
+
+  async FetchStreamByIdInBack(id: number): Promise<MusicStream> {
+    return await this.GetMediaStreamById(id);
+  }
+
+  async FetchMediaStream(): Promise<MusicStream[]> {
     let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.MediaStreamsNoChildren, null, "");
     if (result == null || result.status != true) {
-      return null;
+      return [];
     }
-    return result.data.stream.map(b => {
+    let newResult = result.data.stream.map(b => {
       let stream: MusicStream = new MusicStream();
       for (let key in b) {
         stream[key] = b[key];
       }
       return stream;
+    }).sort((a: MusicStream, b: MusicStream) => {
+      let firstDate = new Date(a.stream_created_date).getTime();
+      let lastDate = new Date(b.stream_created_date).getTime();
+      if (isNaN(firstDate)) {
+        firstDate = 0;
+      }
+      if (isNaN(lastDate)) {
+        lastDate = 0;
+      }
+      return -(firstDate - lastDate);
     });
+    let timeNow = new Date();
+    await this.storage.set(this.getStorageKey("allStream"), { data: newResult, time: timeNow.getTime() });
+    return newResult;
+
   }
-  async GetMediaStreamById(id: number) {
+
+
+  async GetMediaStream(): Promise<MusicStream[]> {
+    let data: any = await this.getStoragePromise("allStream");
+    if (data == null || data.data == null || data.time == null) {
+      return await this.FetchMediaStream();
+    }
+    return data.data;
+  }
+
+
+
+  async FetchGetMediaStreamById(id: number) {
     let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.MediaStreamsNoChildren, null, `/${id}`);
+    console.log(result);
     if (result == null || result.status != true) {
       return null;
     }
@@ -426,10 +481,33 @@ export class DataService {
             }
           }
           return musicSerie;
+        }).sort((a, b) => {
+          let firstDate = new Date(a.latest_episode_date).getTime();
+          let lastDate = new Date(b.latest_episode_date).getTime();
+          if (isNaN(firstDate)) {
+            firstDate = 0;
+          }
+          if (isNaN(lastDate)) {
+            lastDate = 0;
+          }
+          return -(firstDate - lastDate);
         })
       }
     }
+    let timeNow = new Date();
+    await this.storage.set(this.getStorageKey("stream" + id), { data: stream, time: timeNow.getTime() });
     return stream;
+  }
+
+  async GetMediaStreamById(id: number) {
+
+    let data: any = await this.getStoragePromise("stream" + id);
+    console.log(data);
+    let timeNow = new Date();
+    if (data == null || data.time == null) {
+      return await this.FetchGetMediaStreamById(id);
+    }
+    return data.data;
   }
   async GetMediaStreamByIdEpsoId(id: number, epsoId: number) {
     let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.MediaStreamsNoChildren, null, `/${id}/${epsoId}`);
@@ -460,4 +538,11 @@ export class DataService {
     return musicSerie;
   }
   public MusicTrack: any[] = [];
+
+
+
+
+  async GetImageByServer(src:string){
+    return await (await this.httpRequestBlank())(HttpType.Post,"",{path:src});
+  }
 }

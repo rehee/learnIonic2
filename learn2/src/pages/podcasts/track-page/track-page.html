@@ -1,25 +1,27 @@
 <ion-header>
+    <page-header></page-header>
     <ion-navbar>
         <ion-title>
             {{SelectEpisode.episode_title}}
         </ion-title>
-        <page-header></page-header>
     </ion-navbar>
-    <audio-control [Tracks]="myTracks"></audio-control>
+
 </ion-header>
 
 <ion-content padding>
-    <ion-card [class.showTrack]="myTracks!=null&&myTracks.length>0">
+    <audio-control [Tracks]="myTracks"></audio-control>
+    <!--[class.showTrack]="myTracks!=null&&myTracks.length>0"-->
+    <ion-card >
 
         <ion-card-header>
-           {{SelectEpisode.episode_subtitle}}
+            {{SelectEpisode.episode_subtitle}}
         </ion-card-header>
 
         <ion-card-content>
-             {{SelectEpisode.episode_desc}}
-             <button ion-button block (click)="PlaySelectTrack()">Play this track</button>
-             <button ion-button block>Back to stream</button>
-             <button ion-button block>Back to series</button>
+            {{SelectEpisode.episode_desc}}
+            <!--<button ion-button block (click)="PlaySelectTrack()">Play this track</button>
+            <button ion-button block>Back to stream</button>
+            <button ion-button block>Back to series</button>-->
         </ion-card-content>
 
     </ion-card>

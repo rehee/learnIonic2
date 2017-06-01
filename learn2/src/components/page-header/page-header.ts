@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 
 @Component({
     selector: 'page-header',
@@ -6,8 +6,10 @@ import { Component, OnInit, Input } from '@angular/core';
 
 })
 
-export class PageHeaderComponent {
+export class PageHeaderComponent implements AfterViewInit {
     constructor() { }
     @Input() Title: string = "";
-
+    ngAfterViewInit() {
+        
+    }
 }

@@ -32,6 +32,7 @@ import { IonicAudioModule } from 'ionic-audio';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { Badge } from '@ionic-native/badge';
+import { StatusBar } from '@ionic-native/status-bar';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'b3dcf650',

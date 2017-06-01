@@ -2,7 +2,7 @@ export enum HttpType {
     Get = 1,
     Post = 2,
     Put = 3,
-    Delete=4
+    Delete = 4
 }
 export enum IknowApiCall {
     ChurchInfo = 1,
@@ -13,13 +13,14 @@ export enum IknowApiCall {
     GetGivingId = 6,
     GetMediaStreams = 7,
     GetMyHoliday = 8,
-    MyAccount=9,
-    Rota=10,
-    NotificationToken=11,
-    UserNotificationToken=12,
-    ReadNotification=13,
-    RemoveNotification=14,
-    MediaStreamsNoChildren=15,
+    MyAccount = 9,
+    Rota = 10,
+    NotificationToken = 11,
+    UserNotificationToken = 12,
+    ReadNotification = 13,
+    RemoveNotification = 14,
+    MediaStreamsNoChildren = 15,
+    ImageToBase64=16
 
 }
 export class AppConfig {
@@ -31,14 +32,15 @@ export class AppConfig {
         [IknowApiCall.Register]: "/auth/register",
         [IknowApiCall.GetGivingId]: "/finance/giving_ids",
         [IknowApiCall.GetMediaStreams]: "/mediastreams",
-        [IknowApiCall.GetMyHoliday]:"/account/holidays",
-        [IknowApiCall.MyAccount]:"/account",
-        [IknowApiCall.Rota]:"/teams",
-        [IknowApiCall.NotificationToken]:"/app/notificationtoken",
-        [IknowApiCall.UserNotificationToken]:"/app/getAllNotifications",
-        [IknowApiCall.ReadNotification]:"/app/readNotification",
-        [IknowApiCall.RemoveNotification]:"/app/removeNotification",
-        [IknowApiCall.MediaStreamsNoChildren]:"/mediastreams_no_children"
+        [IknowApiCall.GetMyHoliday]: "/account/holidays",
+        [IknowApiCall.MyAccount]: "/account",
+        [IknowApiCall.Rota]: "/teams",
+        [IknowApiCall.NotificationToken]: "/app/notificationtoken",
+        [IknowApiCall.UserNotificationToken]: "/app/getAllNotifications",
+        [IknowApiCall.ReadNotification]: "/app/readNotification",
+        [IknowApiCall.RemoveNotification]: "/app/removeNotification",
+        [IknowApiCall.MediaStreamsNoChildren]: "/mediastreams_no_children",
+        [IknowApiCall.ImageToBase64]: "/image_to_64"
     }
 
     static GetApiUrl(apiCall: IknowApiCall, baseUrl: string = "", additionalUrl = "") {
@@ -49,9 +51,11 @@ export class AppConfig {
             return AppConfig.GetApiUrl(apiCall, baseUrl, additionalUrl)
         }
     }
-
-    static RotaAdditionalUrl(team_id:number=0,event_id:number=0){
-       return `/${team_id}/rotas/${event_id}`;
+    static GetBlankBaseUrl() {
+        return "http://localhost:8888"
+    }
+    static RotaAdditionalUrl(team_id: number = 0, event_id: number = 0) {
+        return `/${team_id}/rotas/${event_id}`;
     }
 
 

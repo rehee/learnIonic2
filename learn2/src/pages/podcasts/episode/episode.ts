@@ -12,14 +12,14 @@ export class EpisodeComponent {
     constructor(private apiMedia: ApiMedia, private dataService: DataService, private nav: NavController, private parm: NavParams, private event: Events) {
 
     }
-
+    Title: string = "";
     myTracks: any[];
     async ionViewWillEnter() {
         this.myTracks = this.dataService.MusicTrack;
         await this.Refresh()
     }
 
-    displayTrackTitle:boolean=true;
+    displayTrackTitle: boolean = true;
 
     Close() {
         this.nav.pop();
@@ -31,6 +31,9 @@ export class EpisodeComponent {
         let response: MusicSerieEpisodeResponse = await this.dataService.GetMediaSerial(streamID, seriesId);
         response.data.episodes
         this.MusicDetail = response;
+        if(response!=null){
+            this.Title=response.data.series_title;
+        }
         console.log(response);
     }
     SelectMusic(item: Episode) {
