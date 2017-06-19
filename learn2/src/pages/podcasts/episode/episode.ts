@@ -4,12 +4,13 @@ import { DataService } from '../../../providers/common-service';
 import { MusicStream, MusicSerieEpisodeResponse, MusicSerie, Episode } from '../../../modules/index';
 import { ApiMedia } from '../../../providers/media-service/api-media';
 import { PodcastTrackPage } from '../index';
+import { AlertController } from 'ionic-angular';
 @Component({
     selector: 'podcast-episode',
     templateUrl: 'episode.html'
 })
 export class EpisodeComponent {
-    constructor(private apiMedia: ApiMedia, private dataService: DataService, private nav: NavController, private parm: NavParams, private event: Events) {
+    constructor(private apiMedia: ApiMedia, private dataService: DataService, private nav: NavController, private parm: NavParams, private event: Events, private iAlert: AlertController) {
 
     }
     Title: string = "";
@@ -31,8 +32,8 @@ export class EpisodeComponent {
         let response: MusicSerieEpisodeResponse = await this.dataService.GetMediaSerial(streamID, seriesId);
         response.data.episodes
         this.MusicDetail = response;
-        if(response!=null){
-            this.Title=response.data.series_title;
+        if (response != null) {
+            this.Title = response.data.series_title;
         }
         console.log(response);
     }
@@ -41,6 +42,16 @@ export class EpisodeComponent {
         // this.nav.pop();
         //console.log(item);
         this.nav.push(PodcastTrackPage, item);
+    }
+    ShowDetails(item: Episode) {
+        let alert = this.iAlert.create(
+            {
+                title: item.episode_title,
+                subTitle: item.episode_subtitle,
+                buttons: ['OK']
+            }
+        );
+        alert.present();
     }
 
 }

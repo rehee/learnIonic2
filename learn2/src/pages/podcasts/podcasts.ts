@@ -55,7 +55,7 @@ export class PodcastPage {
     AllSerial: MusicSerie[] = [];
     PageSize: number = 10;
     CurrentPage: number = 1;
-    Title:string= 'Stream';
+    Title: string = 'Stream';
     async doRefresh(refresher: any) {
         let result: MusicStream;
         // result = await this.dataService.FetchGetMediaStreamById(this.seasonId);
@@ -74,7 +74,15 @@ export class PodcastPage {
             result = await this.dataService.GetMediaStreamById(this.seasonId);
             this.load.dismiss();
         }
-        this.Title=result.stream_title;
+        try {
+            this.Title = result.stream_title;
+            this.AllSerial = result.series;
+            this.CurrentPage = 1;
+            this.ThisSerial = this.AllSerial.filter(b => this.AllSerial.indexOf(b) < this.CurrentPage * this.PageSize);
+        }
+        catch (e) {
+
+        }
         // let series = result.series.sort((a, b) => {
         //     let firstDate = new Date(a.latest_episode_date).getTime();
         //     let lastDate = new Date(b.latest_episode_date).getTime();
@@ -86,9 +94,7 @@ export class PodcastPage {
         //     }
         //     return -(firstDate - lastDate);
         // })
-        this.AllSerial = result.series;
-        this.CurrentPage = 1;
-        this.ThisSerial = this.AllSerial.filter(b => this.AllSerial.indexOf(b) < this.CurrentPage * this.PageSize);
+
         return true;
     }
 
@@ -125,6 +131,14 @@ export class PodcastPage {
     async ionViewDidLoad() {
         await this.refreshStream();
     }
+
+    ScrollIsFinished(): boolean {
+        if (this.CurrentPage * this.PageSize > this.AllSerial.length) {
+            return true;
+        }
+        return false;
+    }
+
     async doInfinite(infinit: InfiniteScroll) {
         await CoreFunction.Delay(1000);
         if (this.CurrentPage * this.PageSize > this.AllSerial.length) {
@@ -141,7 +155,7 @@ export class PodcastPage {
                 return false;
             }
         });
-        newList.forEach(b=>this.ThisSerial.push(b));
+        newList.forEach(b => this.ThisSerial.push(b));
         this.CurrentPage++;
         infinit.complete();
     }

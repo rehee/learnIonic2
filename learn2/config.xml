@@ -11,6 +11,8 @@
   <allow-navigation href="*://*.abcxyz.com/*"/>
   <allow-navigation href="*://*.abcxyz.com"/>
   <allow-navigation href="*://*.jquery.com/*"/>
+  <allow-navigation href="https://*youtube.com/*"/>
+  <allow-navigation href="https://*vimeo.com/*"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>

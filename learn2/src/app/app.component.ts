@@ -10,13 +10,16 @@ import { Push, PushToken } from '@ionic/cloud-angular'
 import { Badge } from '@ionic-native/badge';
 // import { Push as Pushs, PushObject, PushOptions } from '@ionic-native/push';
 
+
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
+
   rootPage = HomePage;
   @ViewChild('content') nav: NavController
-  load = this.loading.create({ content: 'Loading...' });
+  load = this.loading.create({ content: 'Init your app please wait...' });
   sideMenus: any[] = [];
 
   async openPage(page: any, newPage: boolean = false) {
@@ -37,12 +40,11 @@ export class MyApp {
     storage: Storage, public dataService: DataService, public push: Push,
 
     private event: Events, private badge: Badge) {
-    
     this.load.present();
     this.event.subscribe('LoginChange', async (b) => {
       await this.RenewNotificationBadge();
     });
-    platform.ready().then(() => {
+    platform.ready().then(async () => {
       this.checkFunction = CoreFunction.IsSamePageCurrentTargetFunction(this.nav);
       if (Device.uuid != null) {
 
@@ -87,7 +89,7 @@ export class MyApp {
 
       StatusBar.overlaysWebView(false);
       StatusBar.styleDefault();
-      Splashscreen.hide();
+
 
       if (Device.uuid != null) {
         deviceService.SetDeviceModule(true, Device.platform, Device.version, Device.uuid, Device.cordova, Device.model, Device.manufacturer, Device.isVirtual, Device.serial);
@@ -102,13 +104,16 @@ export class MyApp {
             async () => await this.RenewNotificationBadge(),
             async () => await dataService.initData(),
           ])(async () => {
+
+
+            Splashscreen.hide();
             this.load.dismiss();
-            // this.event.publish('LoginMayChange', await this.dataService.getUserAuthAsync());
-            // this.sideMenus = this.menus.MenuItems;
           });
           this.dataService.FetchAllPodcastInBack();
         }
       );
+
+
     });
 
     event.subscribe('musicPlayChange', (isDisplay: boolean) => {

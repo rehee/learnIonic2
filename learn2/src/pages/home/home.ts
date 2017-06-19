@@ -76,15 +76,7 @@ export class HomePage {
 
 
 
-  async testStream(){
-    console.log(await this.dataservice.GetMediaStream());
-  }
-  async testStreamId(id:number){
-    console.log(await this.dataservice.GetMediaStreamById(id));
-  }
-  async testStreamIdEpsole(id:number,epsole:number){
-    console.log(await this.dataservice.GetMediaStreamByIdEpsoId(id,epsole));
-  }
+  
   showData() {
     console.log(this.data);
 

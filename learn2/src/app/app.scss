@@ -55,6 +55,30 @@
     flex-direction: column;
 }
 
+
+audio-track-progress-bar.main_audio {
+        height: 90px;
+        display: block;
+    }
+    
+    .main_audio .range-ios [range-left] {
+        /* margin: 0 20px 0 0; */
+        position: absolute;
+        bottom: -10%;
+    }
+    
+    .main_audio .range-ios [range-right] {
+        /* margin: 0 0 0 20px; */
+        position: absolute;
+        right: 0%;
+        bottom: -10%;
+    }
+
+
+    .autoPlayTrack.light .button{
+        color: color($colors,light)!important;
+    }
+
 // .thisHeader{
     
 // }
@@ -95,3 +119,21 @@
 //     padding-top: 0px!important;
 //     margin-top: 0px!important;
 // }
+
+// .list-md{
+//     margin:0px;
+// }
+// .item-ios{
+//     padding-left: 0px;
+// }
+
+.no-margin>*{
+    padding-left:0px;
+}
+.no-margin .item-inner{
+    background-position: right 1px center!important;
+    padding-right: 12px!important;
+}
+.normal-padding{
+    padding-left: $NormalPadding;
+}

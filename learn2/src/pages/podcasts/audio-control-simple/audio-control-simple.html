@@ -1,9 +1,10 @@
-<div *ngIf="DisplayController==true">
-  <button ion-button [color]="'light'" *ngIf="Tracks!=null&&Tracks.length>0" (click)="StopAudio()">
+<div *ngIf="dataService.DisplayMusicController==true">
+  <button ion-button  *ngIf="Tracks!=null&&Tracks.length>0" (click)="StopAudio()">
     <span><i class="fa fa-stop" aria-hidden="true"></i></span>
   </button>
-  <audio-track-play (click)="test(track)" dark [audioTrack]="track" *ngFor="let track of Tracks">
+  <audio-track-play class="autoPlayTrack light" (click)="test(track)"  [audioTrack]="track" *ngFor="let track of Tracks">
     <ion-spinner></ion-spinner>
   </audio-track-play>
 
 </div>
+<!--dark-->

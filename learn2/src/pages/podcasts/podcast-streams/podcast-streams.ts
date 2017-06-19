@@ -18,6 +18,10 @@ export class PodcastStreamPage {
 
     }
     Stream: MusicStream[] = [];
+    async doRefresh(refresher:any){
+        this.Stream= await this.dataService.FetchMediaStream();
+        refresher.complete();
+    }
     async GoToStreamPage(streamId: number) {
         // this.load.present();
         // let streamDetail = await this.dataService.GetMediaStreamById(streamId);

@@ -9,8 +9,8 @@
       "app_name":"[APPNAME666]",
       "api_version":"1",
       "tcs":"By using this app you agree to our full terms of use found on our website",
-      "base_url":"https:\/\/iknowapi.divinepassport.com\/1\/18",
-      "church_id":"18",
+      "base_url":"http://192.168.1.39:8888/1/3",
+      "church_id":"3",
       "menu":{
          "public":[
            {
@@ -51,6 +51,15 @@
                "private": true,
                "icon":"fa-group",
                "href":"church",
+               "dragger":false,
+               "ios":true,
+               "android":true
+            },
+            {
+               "text":"My Team",
+               "private": true,
+               "icon":"fa-group",
+               "href":"myteam",
                "dragger":false,
                "ios":true,
                "android":true

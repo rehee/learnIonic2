@@ -7,19 +7,14 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-
-  <ion-card>
-
-    <ion-card-header>
-      <img style="width: 75%;margin: 0 auto;" [src]="MusicDetail?.data?.series?.series_image">
-    </ion-card-header>
-
-    <ion-card-content>
+<ion-content>
+  <br>
+  <br>
+  <img style="width: 75%;margin: 0 auto;display: block;" [src]="MusicDetail?.data?.series?.series_image">
       <ion-list>
         <ion-item *ngFor="let item of MusicDetail?.data?.series?.episodes">
-          <h2>{{item.episode_title}}</h2>
-          <p>{{item.episode_subtitle}}</p>
+          <h2 (click)="ShowDetails(item)">{{item.episode_title}}</h2>
+          <p (click)="ShowDetails(item)">{{item.episode_subtitle}}</p>
           <p>{{item.episode_date|stringToTime|date:"dd/MM/yyyy"}}</p>
           <button ion-button clear icon-left color="danger" (click)="SelectMusic(item)" style="padding-left: 0px;" >
             <ion-icon name='musical-notes' is-active="false"></ion-icon>
@@ -28,9 +23,5 @@
 
         </ion-item>
       </ion-list>
-    </ion-card-content>
-
-  </ion-card>
-
 
 </ion-content>

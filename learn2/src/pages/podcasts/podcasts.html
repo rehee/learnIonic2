@@ -2,18 +2,19 @@
   <page-header></page-header>
   <ion-navbar>
     <ion-title>
-      {{Title}}
+      Stream
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
+  <h2 class="normal-padding">{{Title}}</h2>
   <ion-list>
-    <button ion-item *ngFor="let item of ThisSerial" (click)="FindEpisode(item)">
+    <div *ngFor="let item of ThisSerial">
+      <button ion-item  (click)="FindEpisode(item)">
       <ion-thumbnail item-left>
         <img-lazy [src]="item.series_image"></img-lazy>
       </ion-thumbnail>
@@ -23,8 +24,10 @@
       </p>
       <p *ngIf="item.latest_episode_date!=null">{{item.latest_episode_date|stringToTime|date:"dd/MM/yyyy"}} ({{item.count}} episodes)</p>
     </button>
+    </div>
+    
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll *ngIf="ScrollIsFinished()==false" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingText="Loading more data...">>
 
     </ion-infinite-scroll-content>

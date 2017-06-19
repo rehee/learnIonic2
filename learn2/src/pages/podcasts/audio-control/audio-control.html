@@ -2,9 +2,11 @@
   
 </ion-list>-->
 <style>
-    div.no_border *{
+    div.no_border * {
         border-bottom: none!important;
     }
+    
+    
 </style>
 <div *ngFor="let track of Tracks">
     <ion-item class="no_border">
@@ -16,7 +18,8 @@
         </ion-thumbnail>-->
         <div item-content style="width:100%">
             <p [class.hideBlock]="HideTitle"><strong>{{track.title}}</strong> ⚬ <em>{{track.artist}}</em></p>
-            <audio-track-progress-bar dark duration progress [audioTrack]="track" [ngStyle]="{visibility: track.completed > 0 ? 'visible' : 'hidden'}"></audio-track-progress-bar>
+            <!--[ngStyle]="{visibility: track.completed > 0 ? 'visible' : 'hidden'}"-->
+            <audio-track-progress-bar dark duration progress [audioTrack]="track" class="main_audio"></audio-track-progress-bar>
         </div>
     </ion-item>
 </div>

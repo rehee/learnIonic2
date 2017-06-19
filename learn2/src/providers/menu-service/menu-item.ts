@@ -9,6 +9,8 @@ import {
 //     NotificationPage
 // }from '../../pages/index2';
 import { NotificationPage } from '../../pages/notification/notification';
+
+import { MyTeamManagePage } from '../../pages/my-team/pages/my-team-page/my-team-page';
 // import{
 //     MyChurchPage
 // } from '../../pages/my-church/my-church';
@@ -35,7 +37,7 @@ export class MenuList {
     private static mapPage: any = MapPage;
     private static myChurch: any = MyChurchPage;
     private static notificationPage: any = NotificationPage;
-
+    private static myTeam: any = MyTeamManagePage;
     static MenuListItems: MenuItem[] = [
         {
             page: MenuList.homePage,
@@ -151,6 +153,13 @@ export class MenuList {
             display: true
         }
         ,
+        {
+            page: MenuList.myTeam,
+            text: "My Team",
+            name: 'myteam',
+            icon: 'information-circle',
+            display: true
+        },
         {
             page: MenuList.logoutPage,
             text: "Logout",

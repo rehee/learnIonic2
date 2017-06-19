@@ -24,3 +24,5 @@ export * from './my-message/read-message/read-message'
 
 export * from './nest-nav/nest-nav'
 export * from './home-tabs/home-tabs'
+
+export * from './my-team/index';

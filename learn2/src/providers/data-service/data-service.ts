@@ -53,7 +53,7 @@ export class DataService {
     );
   }
 
-   private async httpRequestBlank() {
+  private async httpRequestBlank() {
     let church: Church = await this.api.GetChurchPromise()
     return CoreFunction.GetHttpResponseAsync(
       CoreFunction.GetHttpPromise,
@@ -249,6 +249,10 @@ export class DataService {
     return await this.getStoragePromise<any>('campaigns');
   }
 
+  async GetGivingUrl() {
+    return await this.getStoragePromise<string>('giving_url');
+  }
+
   async RefreshSocialFeed() {
     return await this.getStoragePromise<any>('media');
   }
@@ -282,6 +286,40 @@ export class DataService {
 
   async RefreshMyChurch() {
     return await this.getStoragePromise<any>('my');
+  }
+
+  async RefreshMyTeam() {
+    var my = await this.getStoragePromise<any>('my');
+    if (my == null || my.teams == null) {
+      return null;
+    }
+    var myteam: any[] = [];
+    for (let key in my.teams) {
+      if (my.teams.hasOwnProperty(key)) {
+        myteam.push(my.teams[key]);
+      }
+    }
+    return myteam;
+  }
+
+  async FetchTeamDetail(instantId: number) {
+    return await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamDetail, null, `/${instantId}`);
+  }
+
+  async FetchTeamCampus(camps: string) {
+    let campus = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamCampus, null, `/${camps}`);
+    if (campus.data == null) {
+      return null;
+    }
+    return campus.data;
+  }
+
+  async FetchTeamRotas(id: number) {
+    let rotas = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamRotas, null, `/${id}`);
+    if (rotas.data == null) {
+      return null;
+    }
+    return rotas.data;
   }
 
   async RefreshMyDetail() {
@@ -400,15 +438,26 @@ export class DataService {
 
 
   async FetchAllPodcastInBack() {
-    let streams: MusicStream[] = await this.GetMediaStream();
-    if (streams == null) {
-      return [];
-    }
-    streams.forEach(
-      async (b) => {
-        let stream = await this.FetchStreamByIdInBack(b.stream_id);
+    let data: any = await this.getStoragePromise("allStream");
+    let streams: MusicStream[] = [];
+    let nowTime = new Date().getTime();
+    if (data == null || data.data == null || data.time == null || nowTime - data.time > 600000) {
+      streams = await this.FetchMediaStream();
+      if (streams == null) {
+        return;
       }
-    );
+      streams.forEach(
+        async (b) => {
+          // let stream = await this.FetchStreamByIdInBack(b.stream_id);
+          await this.FetchGetMediaStreamById(b.stream_id);
+        }
+      );
+    }
+    else {
+      streams = data.data;
+    }
+
+
   }
 
   async FetchStreamByIdInBack(id: number): Promise<MusicStream> {
@@ -460,43 +509,48 @@ export class DataService {
     if (result == null || result.status != true) {
       return null;
     }
-    let stream: MusicStream = new MusicStream();
-    for (let key in result.data.stream) {
-      if (key != "series") {
-        stream[key] = result.data.stream[key];
-      } else {
-        let series = [];
-        for (let seriesKey in result.data.stream.series) {
-          series.push(result.data.stream.series[seriesKey]);
-        }
-        stream.series = series.map(b => {
-          let musicSerie: MusicSerie = new MusicSerie();
-          for (let mKey in b) {
-            if (mKey == "image") {
-              musicSerie.image = new MusicStreamImage();
-              musicSerie.image.b64 = b.image.b64;
-              musicSerie.image.sha1 = b.image.sha1;
-            } else {
-              musicSerie[mKey] = b[mKey];
+    try {
+      let stream: MusicStream = new MusicStream();
+      for (let key in result.data.stream) {
+        if (key != "series") {
+          stream[key] = result.data.stream[key];
+        } else {
+          let series = [];
+          for (let seriesKey in result.data.stream.series) {
+            series.push(result.data.stream.series[seriesKey]);
+          }
+          stream.series = series.map(b => {
+            let musicSerie: MusicSerie = new MusicSerie();
+            for (let mKey in b) {
+              if (mKey == "image") {
+                musicSerie.image = new MusicStreamImage();
+                musicSerie.image.b64 = b.image.b64;
+                musicSerie.image.sha1 = b.image.sha1;
+              } else {
+                musicSerie[mKey] = b[mKey];
+              }
             }
-          }
-          return musicSerie;
-        }).sort((a, b) => {
-          let firstDate = new Date(a.latest_episode_date).getTime();
-          let lastDate = new Date(b.latest_episode_date).getTime();
-          if (isNaN(firstDate)) {
-            firstDate = 0;
-          }
-          if (isNaN(lastDate)) {
-            lastDate = 0;
-          }
-          return -(firstDate - lastDate);
-        })
+            return musicSerie;
+          }).sort((a, b) => {
+            let firstDate = new Date(a.latest_episode_date).getTime();
+            let lastDate = new Date(b.latest_episode_date).getTime();
+            if (isNaN(firstDate)) {
+              firstDate = 0;
+            }
+            if (isNaN(lastDate)) {
+              lastDate = 0;
+            }
+            return -(firstDate - lastDate);
+          })
+        }
       }
+      let timeNow = new Date();
+      await this.storage.set(this.getStorageKey("stream" + id), { data: stream, time: timeNow.getTime() });
+      return stream;
+    } catch (e) {
+      return null;
     }
-    let timeNow = new Date();
-    await this.storage.set(this.getStorageKey("stream" + id), { data: stream, time: timeNow.getTime() });
-    return stream;
+
   }
 
   async GetMediaStreamById(id: number) {
@@ -538,11 +592,11 @@ export class DataService {
     return musicSerie;
   }
   public MusicTrack: any[] = [];
+  public DisplayMusicController: boolean = true;
 
 
 
-
-  async GetImageByServer(src:string){
-    return await (await this.httpRequestBlank())(HttpType.Post,"",{path:src});
+  async GetImageByServer(src: string) {
+    return await (await this.httpRequestBlank())(HttpType.Post, "", { path: src });
   }
 }

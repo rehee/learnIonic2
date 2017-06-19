@@ -2,13 +2,17 @@
     <page-header></page-header>
     <ion-navbar>
         <ion-title>
-            Choose a stream
+            Streams
         </ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-list>
+
         <button ion-item *ngFor="let item of Stream" (click)="GoToStreamPage(item.stream_id)">
             <ion-thumbnail item-left>
                 <img-lazy [src]="item.stream_image"></img-lazy>

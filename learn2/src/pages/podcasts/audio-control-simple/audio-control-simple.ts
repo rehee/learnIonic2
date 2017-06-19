@@ -16,21 +16,22 @@ export class AudioControlSimpleComponent implements AfterViewInit {
         });
         event.subscribe('TrackSelected', async () => {
             await this.RefreshTrack();
+            this.DisplayController = this.dataService.DisplayMusicController = true;
         })
     }
-    DisplayController:boolean=true;
+    DisplayController: boolean = true;
     async ngAfterViewInit() {
         await this.RefreshTrack();
     }
     Tracks: any[] = [];
     async RefreshTrack() {
         let tracks = await this.dataService.MusicTrack;
+        this.DisplayController = this.dataService.DisplayMusicController;
         if (tracks == null || tracks.length == 0) {
             this.Tracks = [];
             return;
         }
         this.Tracks = tracks;
-        this.DisplayController=true;
     }
     StopAudio() {
         console.log(this.audio);
@@ -40,7 +41,8 @@ export class AudioControlSimpleComponent implements AfterViewInit {
                 return;
             }
             this.audio.tracks[0].pause();
-            this.DisplayController=false;
+            this.DisplayController = false;
+            this.dataService.DisplayMusicController = false;
         }
         catch (e) {
 

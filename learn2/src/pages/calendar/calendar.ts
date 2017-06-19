@@ -20,7 +20,7 @@ const colors: any = {
     }
 };
 @Component({
-    selector: 'calendar',
+    selector: 'my-calendar',
     templateUrl: 'calendar.html'
 })
 export class CalenderPage implements OnInit {
