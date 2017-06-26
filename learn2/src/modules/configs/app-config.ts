@@ -20,10 +20,13 @@ export enum IknowApiCall {
     ReadNotification = 13,
     RemoveNotification = 14,
     MediaStreamsNoChildren = 15,
-    ImageToBase64=16,
-    TeamDetail=17,
-    TeamCampus=18,
-    TeamRotas=19
+    ImageToBase64 = 16,
+    TeamLeaders = 17,
+    TeamCampus = 18,
+    TeamRotas = 19,
+    TeamUpcomingEvents = 20,
+    CalEventTeamEvent = 21,
+    TeamEventRoles = 22
 
 }
 export class AppConfig {
@@ -44,9 +47,12 @@ export class AppConfig {
         [IknowApiCall.RemoveNotification]: "/app/removeNotification",
         [IknowApiCall.MediaStreamsNoChildren]: "/mediastreams_no_children",
         [IknowApiCall.ImageToBase64]: "/image_to_64",
-        [IknowApiCall.TeamDetail]: "/teams/detail",
+        [IknowApiCall.TeamLeaders]: "/teams/leaders",
         [IknowApiCall.TeamCampus]: "/teams/campus_detail",
-        [IknowApiCall.TeamRotas]:"/teams/rotas_list"
+        [IknowApiCall.TeamRotas]: "/teams/rotas_list",
+        [IknowApiCall.TeamUpcomingEvents]: "/teams/upcoming_event",
+        [IknowApiCall.CalEventTeamEvent]: "/teams/team_cal_event",
+        [IknowApiCall.TeamEventRoles]:"/teams/role_list"
     }
 
     static GetApiUrl(apiCall: IknowApiCall, baseUrl: string = "", additionalUrl = "") {

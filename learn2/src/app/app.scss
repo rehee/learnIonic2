@@ -137,3 +137,18 @@ audio-track-progress-bar.main_audio {
 .normal-padding{
     padding-left: $NormalPadding;
 }
+.flex_box ion-label{
+    display:flex;
+}
+.flex_box ion-avatar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flex_box .item_content {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

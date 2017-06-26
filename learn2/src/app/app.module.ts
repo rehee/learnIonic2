@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler,LOCALE_ID } from '@angular/core';
+import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -24,7 +24,7 @@ import { ScrollableTabs } from '../components/scroll-tab/scrollable-tabs'
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular'
 import { HomeBlockComponent, HomeLinkComponent, HomeVoteComponent, HomeSliderComponent, HomeLoginComponent, HomeRefreshComponent, HomeLoginPrompComponent } from '../pages/home/weidges/index';
 import { LogoutSpinComponent } from '../pages/logout/logout-spin/logout-spin'
-import { SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe } from '../pipes/index'
+import { SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe, CampusShortPipe } from '../pipes/index'
 import { CalendarModule } from 'angular-calendar';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EpisodeComponent, PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage, PodcastTrackPage, AudioControlComponent, AudioControlSimpleComponent } from '../pages/podcasts/index';
@@ -36,8 +36,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { StatusBar } from '@ionic-native/status-bar';
 
 
-import { MyTeamManagePage,MyTeamRotasPage } from '../pages/index';
-import { NgCalendarModule  } from 'ionic2-calendar';
+import { MyTeamManagePage, MyTeamRotasPage, MyTeamRotaPage,MyTeamGroupJoinPage,MyTeamEventDetailPage } from '../pages/index';
+import { NgCalendarModule } from 'ionic2-calendar';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'b3dcf650',
@@ -71,7 +71,7 @@ const cloudSettings: CloudSettings = {
     ScrollableTabs,
     LogoutComponent, LogoutSpinComponent,
     FeaturedPage,
-    SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe,
+    SafeHtmlPipe, AppCurrencyPipe, ImageSrcSavePipe, TimeSpendPipe, StringToTimePipe, CampusShortPipe,
     CalenderPage, CalendarEventWeidge,
     GivePage,
     PodcastPage, EpisodeComponent, PodcastLoaderPage, PodcastStreamPage, PodcastHolderPage, PodcastTrackPage, AudioControlComponent, AudioControlSimpleComponent,
@@ -84,7 +84,7 @@ const cloudSettings: CloudSettings = {
     NotificationPage, CalendarNativePage,
     MyMessagePage, ReadMessagePage,
     NestNavPage, HomeTabs,
-    MyTeamManagePage,MyTeamRotasPage
+    MyTeamManagePage, MyTeamRotasPage,MyTeamRotaPage,MyTeamGroupJoinPage,MyTeamEventDetailPage
   ],
   imports: [
     NgCalendarModule,
@@ -98,7 +98,7 @@ const cloudSettings: CloudSettings = {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyA5THjfwM4qdgplcilYPv_hV-idRSvBe5o'
     })
-    
+
 
   ],
   bootstrap: [IonicApp],
@@ -119,10 +119,10 @@ const cloudSettings: CloudSettings = {
     NotificationPage, CalendarNativePage,
     MyMessagePage, ReadMessagePage,
     NestNavPage, HomeTabs,
-    MyTeamManagePage
+    MyTeamManagePage, MyTeamRotasPage,MyTeamRotaPage,MyTeamGroupJoinPage,MyTeamEventDetailPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, 
-  FootMenuService, ApiService, ApiMedia, CommonService, DeviceService, DataService, CoreService, Badge,InAppBrowser
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler },
+    FootMenuService, ApiService, ApiMedia, CommonService, DeviceService, DataService, CoreService, Badge, InAppBrowser
   ]
 })
 export class AppModule {

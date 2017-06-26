@@ -1,0 +1,27 @@
+<ion-header>
+    <page-header></page-header>
+    <ion-navbar>
+        <ion-title>
+            Rotas
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+
+    <ion-list>
+         <ion-item-group>
+            <ion-item-divider color="light">
+                <br>
+                <br>
+                <span class="campus_name">{{Team?.name}} Team</span>
+            </ion-item-divider>
+            <button ion-item *ngFor="let item of Rotas" (click)='EventDetail(item)'>
+            {{item.event_name}}
+        </button>
+
+        </ion-item-group>
+        
+    </ion-list>
+
+
+</ion-content>

@@ -29,6 +29,11 @@ export class ImageSrcSavePipe implements PipeTransform {
         }
         let data = await this.getImageFromStorage(inputs);
         if (data != null) {
+            ImageTo64Service.GetImageDataPromise(inputs).then(b => {
+                if (b != null) {
+                    this.storage.set(inputs, b);
+                }
+            })
             return data;
         }
         let result: any = await ImageTo64Service.GetImageDataPromise(inputs);
@@ -37,11 +42,11 @@ export class ImageSrcSavePipe implements PipeTransform {
         }
         this.storage.set(inputs, result);
         return result;
-        
+
         // let result = await this.dataService.GetImageByServer(inputs);
         // console.log(result);
         // return result;
-        
+
         // let result = await (await this.httpRequestBlank())(HttpType.Post, IknowApiCall.ImageToBase64, { path: inputs },"");
         // return this.sanitizer.bypassSecurityTrustHtml(result);
     }
@@ -76,6 +81,7 @@ export class ImageTo64Service {
 
     public static toDataUrl(url: string = "", callback: any, error: any) {
         var xhr = new XMLHttpRequest();
+        xhr.timeout = 30000;
         xhr.onload = function () {
             var reader = new FileReader();
             reader.readAsDataURL(xhr.response);
@@ -84,6 +90,10 @@ export class ImageTo64Service {
                 callback(reader.result);
             };
             reader.onabort = error;
+        };
+        xhr.ontimeout = function (e) {
+            console.log("timeout");
+            callback(null);
         };
         xhr.onerror = error;
         xhr.abort = error;

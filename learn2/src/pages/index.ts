@@ -26,3 +26,4 @@ export * from './nest-nav/nest-nav'
 export * from './home-tabs/home-tabs'
 
 export * from './my-team/index';
+export * from './my-team-group-join/my-team-group-join';

@@ -13,7 +13,7 @@
 
             </ion-col>
             <ion-col>
-                <button ion-button block> Join a Team</button>
+                <button ion-button block (click)="JoinTeam()"> Join a Team</button>
             </ion-col>
             <ion-col width-25>
 
@@ -21,18 +21,16 @@
         </ion-row>
 
     </ion-grid>
-    <ion-content>
-        <ion-item-group *ngFor="let item of Campus">
+    <ion-item-group *ngFor="let item of Campus">
             <ion-item-divider color="light">
                 <br>
                 <br>
-                {{item.campus.campus_name}}
+                <span class="campus_name">{{item.campName|campusshort|async}}</span>
             </ion-item-divider>
-            <ion-item *ngFor="let team of item.teams" (click)="detail(team.id)">
+            <button ion-item *ngFor="let team of item.teams" (click)="ToRotasPage(team)">
                 {{team.name}}
-            </ion-item>
+            </button>
             
         </ion-item-group>
-    </ion-content>
 
 </ion-content>

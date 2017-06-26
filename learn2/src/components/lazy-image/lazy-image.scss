@@ -3,7 +3,7 @@ img-lazy{
     flex-direction: column;
     align-items: center;
     .loading{
-        visibility: hidden;
+        display: none;
     }
     .sping_loading_finish{
         display: none;

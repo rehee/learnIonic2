@@ -1,0 +1,68 @@
+<ion-header>
+    <page-header></page-header>
+    <ion-navbar>
+        <ion-title>
+            {{Team?.name}} Team
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col width-25>
+
+            </ion-col>
+            <ion-col>
+                <button ion-button block (click)="GoToRota()"> Rotas</button>
+            </ion-col>
+            <ion-col width-25>
+
+            </ion-col>
+        </ion-row>
+
+    </ion-grid>
+    <!--<div class="shadowbox">
+        <br>
+        <br>
+        <span class="header">
+            {{Team?.campus_abbr|campusshort|async}} Team
+        </span>
+    </div>-->
+    <ion-list no-lines>
+        <ion-item-group>
+            <ion-item-divider color="light">
+                <br>
+                <br>
+                <span class="campus_name">{{Team?.name}} Team</span>
+            </ion-item-divider>
+            <div class="flex_box" *ngFor="let item of TeamLeaders">
+                <ion-item>
+                    <ion-avatar item-start>
+                        <img-lazy [src]="item.Image" [defaultSrc]="DefaultAvata"></img-lazy>
+                    </ion-avatar>
+                    <div class="item_content">
+                        <h2>Team Leader:</h2>
+                        <p>{{item.Name}}</p>
+                    </div>
+                </ion-item>
+                <div class="harlf_border"></div>
+            </div>
+
+        </ion-item-group>
+    </ion-list>
+    <ion-list>
+        <ion-list-header class="top-noline">
+            <br>
+            <br>
+            <span style="text-transform: none;">You are on <span class="roter_number">{{Rotas}} rotas </span> </span>
+        </ion-list-header>
+        <button ion-item *ngFor="let item of UpcomingEvent">
+            <h2>{{item.event_name}}</h2>
+            <h2>{{item.cal_date|stringToTime|date:'d MMMM'}} - {{item.role}}</h2>
+        </button>
+    </ion-list>
+
+
+
+</ion-content>

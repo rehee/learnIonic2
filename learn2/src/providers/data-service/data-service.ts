@@ -18,6 +18,7 @@ import { DateExtent } from '../../pipes/index';
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
+
 @Injectable()
 export class DataService {
 
@@ -32,6 +33,7 @@ export class DataService {
       await (await this.httpRequest())(HttpType.Post, IknowApiCall.NotificationToken, { ppl_id: await this.getStoragePromise<number>(AppKeyType.PplId.toString()), token: deviceService.PushNotificationToken }, "");
     })
   }
+  CACHE_TIME: number = 1000 * 60 * 10;
   private async httpRequest() {
     let church: Church = await this.api.GetChurchPromise()
     return CoreFunction.GetHttpResponseAsync(
@@ -302,24 +304,110 @@ export class DataService {
     return myteam;
   }
 
-  async FetchTeamDetail(instantId: number) {
-    return await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamDetail, null, `/${instantId}`);
-  }
 
-  async FetchTeamCampus(camps: string) {
-    let campus = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamCampus, null, `/${camps}`);
-    if (campus.data == null) {
+  async fetchTeamLeaderAndSave(instantId: number, key: string, time: number) {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamLeaders, null, `/${instantId}`);
+    if (result == null) {
       return null;
     }
+    this.storage.set(key, { data: result.data, time: time });
+    return result.data;
+  }
+
+  async FetchTeamLeaders(instantId: number) {
+    let key: string = this.getStorageKey(`team_id_${instantId}`);
+    let time: number = (new Date()).getTime();
+    let result = await this.storage.get(key);
+    // || result.time + this.CACHE_TIME < time
+    if (result == null) {
+      return this.fetchTeamLeaderAndSave(instantId, key, time);
+    }
+    this.fetchTeamLeaderAndSave(instantId, key, time);
+    return result.data;
+  }
+
+
+  async fetchTeamCampusAndSave(camps: string, key: any, time) {
+    let campus = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamCampus, null, `/${camps}`);
+    if (campus == null || campus.data == null) {
+      return null;
+    }
+    this.storage.set(key, { campus: campus.data, time: time });
     return campus.data;
   }
 
-  async FetchTeamRotas(id: number) {
-    let rotas = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamRotas, null, `/${id}`);
-    if (rotas.data == null) {
-      return null;
+  async FetchTeamCampus(camps: string) {
+    let time = (new Date()).getTime();
+    let key = this.getStorageKey(`campu_${camps}`);
+    let result = await this.storage.get(key);
+    // || result.time + this.CACHE_TIME < time
+    if (result == null) {
+      return await this.fetchTeamCampusAndSave(camps, key, time);
     }
-    return rotas.data;
+    this.fetchTeamCampusAndSave(camps, key, time);
+    return result.campus;
+  }
+
+
+  async fetchTeamRotasAndSave(id: number, key: string, time: number) {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamRotas, null, `/${id}`);
+    if (result == null || result.data == null) {
+      return [];
+    }
+    this.storage.set(key, { data: result.data, time: time });
+    return result.data;
+  }
+
+
+  async FetchTeamRotas(id: number) {
+    let key: string = this.getStorageKey(`team_team_rotas_${id}`);
+    let time: number = (new Date()).getTime();
+    let result = await this.storage.get(key);
+    // || result.time + this.CACHE_TIME < time
+    if (result == null) {
+      return await this.fetchTeamRotasAndSave(id, key, time);
+    }
+    this.fetchTeamRotasAndSave(id, key, time);
+    return result.data;
+  }
+
+  async fetchUpcomingTeamEventAndSave(id: number, key: string, time: number) {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamUpcomingEvents, null, `/${id}`);
+    if (result == null || result.data == null) {
+      return [];
+    }
+    console.log(result.data);
+    this.storage.set(key, { data: result.data, time: time });
+    return result.data;
+  }
+
+  async FetchTeamUpcomingEvents(id: number) {
+    let key: string = this.getStorageKey(`team_upcoming_event_${id}`);
+    let time: number = (new Date()).getTime();
+    let result = await this.storage.get(key);
+    // || result.time + this.CACHE_TIME < time
+    if (result == null) {
+      return await this.fetchUpcomingTeamEventAndSave(id, key, time);
+    }
+    this.fetchUpcomingTeamEventAndSave(id, key, time);
+    return result.data;
+  }
+
+
+  async fetchCalEventByTeamAndEvent(teamId: number, eventId: number, calId: number = 0, isPrev: boolean = false) {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.CalEventTeamEvent, null, `/${teamId}/${eventId}/${calId}/${isPrev}`);
+    if (result == null || result.data == null) {
+      return [];
+    }
+    return result.data;
+  }
+
+  async fetchTeamEventRoleList(teamId: number, calId: number) {
+    let result = await (await this.httpRequest())(HttpType.Get, IknowApiCall.TeamEventRoles, null, `/${teamId}/${calId}`);
+    if (result == null || result.data == null) {
+      return [];
+    }
+    return result.data;
   }
 
   async RefreshMyDetail() {

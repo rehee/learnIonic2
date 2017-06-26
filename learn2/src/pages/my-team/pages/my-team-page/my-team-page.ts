@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { CalendarComponent } from 'ionic2-calendar/calendar';
-import { MonthViewComponent } from 'ionic2-calendar/monthview';
+// import { CalendarComponent } from 'ionic2-calendar/calendar';
+// import { MonthViewComponent } from 'ionic2-calendar/monthview';
 import { DataService } from '../../../../providers/common-service';
+import { NavController } from 'ionic-angular';
+import { MyTeamRotasPage } from '../index';
+import { MyTeamGroupJoinPage } from '../../../index';
 @Component({
     selector: 'my-team-page',
     templateUrl: 'my-team-page.html'
 })
 
 export class MyTeamManagePage {
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private nav: NavController) {
 
     }
 
@@ -22,19 +25,21 @@ export class MyTeamManagePage {
                 campus.push(b.campus_abbr);
             }
         });
+        this.Campus = [];
         campus.forEach(async (b) => {
             let camp: any = {};
             camp.campName = b;
-            camp.campus = await this.dataService.FetchTeamCampus(b);
             camp.teams = team.filter(c => c.campus_abbr == b);
             this.Campus.push(camp);
         })
-
-        console.log(this.Campus);
     }
-
-    async detail(id){
+    JoinTeam(){
+        this.nav.push(MyTeamGroupJoinPage, 'team');
+    }
+    async ToRotasPage(item) {
+        this.nav.push(MyTeamRotasPage, item)
         // console.log(await this.dataService.FetchTeamDetail(id));
-        console.log(await this.dataService.FetchTeamRotas(id));
+        // console.log(await this.dataService.FetchTeamRotas(id));
+        // console.log(await this.dataService.FetchTeamUpcomingEvents(id));
     }
 }
